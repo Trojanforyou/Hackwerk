@@ -23,7 +23,7 @@ MOCK_USERS = {
 
 def digid_login():
     """DigiD authentication interface"""
-    st.sidebar.header("🔐 DigiD Inloggen")
+    st.sidebar.header("DigiD Inloggen")
     
     # Simple fake DigiD authentication - no external server needed
     
@@ -34,14 +34,14 @@ def digid_login():
         st.sidebar.info("Log in met DigiD voor toegang tot gepersonaliseerde overheidsprogramma's")
         
         # Single DigiD login button - fake login as King Arthur
-        if st.sidebar.button("🔐 Inloggen met DigiD", type="primary", use_container_width=True):
+        if st.sidebar.button("Inloggen met DigiD", type="primary", use_container_width=True):
             # Show realistic DigiD process
             with st.sidebar:
-                st.info("🔄 Doorverwijzen naar DigiD...")
+                st.info("Doorverwijzen naar DigiD...")
                 time.sleep(0.5)
-                st.success("✅ Verbinding met DigiD servers...")
+                st.success("Verbinding met DigiD servers...")
                 time.sleep(0.5)
-                st.success("🔐 Authenticatie succesvol!")
+                st.success("Authenticatie succesvol!")
             
             # Auto-login as King Arthur
             king_arthur_data = MOCK_USERS["123456789"].copy()
@@ -201,19 +201,41 @@ def main():
     # Set page config
     st.set_page_config(
         page_title="Ondernemersloket Nederland", 
-        page_icon="🏛️",
+        page_icon="⚖️", 
         layout="wide",
         initial_sidebar_state="expanded"
     )
+    
+    # Set white background
+    st.markdown("""
+    <style>
+    .main {
+        background-color: white;
+    }
+    .stApp {
+        background-color: white;
+    }
+    .css-1d391kg {
+        background-color: white;
+    }
+    </style>
+    """, unsafe_allow_html=True)
     
     # DigiD Authentication
     digid_login()
     
     # Main header
     st.markdown("""
-    <div style="background: linear-gradient(90deg, #154c79 0%, #1e5f8b 100%); padding: 1.5rem; border-radius: 8px; margin-bottom: 2rem;">
-        <h1 style="color: white; margin: 0; font-size: 2.5rem;">🏛️ Ondernemersloket Nederland</h1>
-        <p style="color: #e6f3ff; margin: 0.5rem 0 0 0; font-size: 1.2rem;">Gepersonaliseerde ondersteuning voor Nederlandse ondernemers</p>
+    <div style="background: linear-gradient(90deg, #154c79 0%, #1e5f8b 100%); padding: 2rem; border-radius: 12px; margin-bottom: 2rem; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
+        <div style="display: flex; align-items: center;">
+            <div style="background: rgba(255,255,255,0.1); padding: 1rem; border-radius: 50%; margin-right: 1.5rem;">
+                <span style="font-size: 2rem;">⚖️</span>
+            </div>
+            <div>
+                <h1 style="color: white; margin: 0; font-size: 2.8rem; font-weight: 600;">Ondernemersloket Nederland</h1>
+                <p style="color: #b8d4f0; margin: 0.5rem 0 0 0; font-size: 1.1rem; font-weight: 300;">Officieel portaal voor Nederlandse ondernemers | Ministerie van Economische Zaken en Klimaat</p>
+            </div>
+        </div>
     </div>
     """, unsafe_allow_html=True)
     
@@ -222,60 +244,95 @@ def main():
     if not st.session_state.get('logged_in', False):
         
         # Official government notice
-        st.info("🔐 **Veilig inloggen vereist:** Log in met DigiD voor toegang tot gepersonaliseerde overheidsprogramma's en projectkansen.")
+        st.markdown("""
+        <div style="background: #fff3cd; border: 1px solid #ffeaa7; padding: 1.5rem; border-radius: 8px; margin: 1.5rem 0;">
+            <h4 style="color: #856404; margin: 0 0 0.5rem 0;">Veilige DigiD-authenticatie vereist</h4>
+            <p style="color: #856404; margin: 0;">Log in met DigiD voor toegang tot gepersonaliseerde overheidsprogramma's en projectkansen.</p>
+        </div>
+        """, unsafe_allow_html=True)
         
         col1, col2 = st.columns([2, 1])
         
         with col1:
             st.markdown("""
-            ## 🎯 Wat bieden wij
-            - **Gepersonaliseerde programma matching** op basis van uw bedrijfsprofiel
-            - **Lokale projectkansen** (warmtenetten, infrastructuurprojecten)  
-            - **Real-time updates** over nieuwe subsidies en regelingen
-            - **Directe communicatie** met overheidsinstanties
+            ## Wat bieden wij
             
-            ## 📊 Beschikbare Programma's
+            **Gepersonaliseerde programma matching**  
+            Op basis van uw bedrijfsprofiel en specifieke behoeften
+            
+            **Lokale projectkansen**  
+            Warmtenetten, infrastructuurprojecten en publiek-private samenwerkingen
+            
+            **Real-time updates**  
+            Automatische notificaties over nieuwe subsidies en regelingen
+            
+            **Directe communicatie**  
+            Rechtstreeks contact met relevante overheidsinstanties
+            
+            ## Beschikbare Programma's
             """)
             
             # Show first few programs as preview
             for program in programs[:3]:
-                with st.expander(f"🏛️ **{program['name']}** - {program.get('contact', 'Overheid')}", expanded=False):
-                    st.write(f"**💰 Budget:** €{program.get('funding_amount', 0):,}")
+                with st.expander(f"**{program['name']}** | {program.get('contact', 'Nederlandse overheid')}", expanded=False):
+                    st.markdown(f"**Budget:** €{program.get('funding_amount', 0):,}")
                     if 'max_employees' in program:
-                        st.write(f"**👥 Max werknemers:** {program['max_employees']}")
-                    st.write(f"**📍 Locaties:** {', '.join(program.get('location', []))}")
-                    st.write(f"**🏭 Sectoren:** {', '.join(program.get('sectors', []))}")
-                    st.write(program['description'])
+                        st.markdown(f"**Max werknemers:** {program['max_employees']}")
+                    st.markdown(f"**Beschikbare locaties:** {', '.join(program.get('location', []))}")
+                    st.markdown(f"**Doelsectoren:** {', '.join(program.get('sectors', []))}")
+                    st.markdown(f"**Beschrijving:** {program['description']}")
         
         with col2:
-            st.markdown("### 🔐 Inloggen Vereist")
-            st.info("Voor volledige toegang tot:")
-            st.write("- ✅ Gepersonaliseerde matches")
-            st.write("- ✅ Aanvraagprocessen")  
-            st.write("- ✅ Projectkansen")
-            st.write("- ✅ Directe communicatie")
+            st.markdown("### DigiD Authenticatie Vereist")
+            st.markdown("""
+            <div style="background: #f8f9fa; padding: 1.5rem; border-radius: 8px; border: 1px solid #dee2e6;">
+                <h4 style="color: #495057; margin: 0 0 1rem 0;">Volledige toegang na inloggen:</h4>
+                <ul style="color: #6c757d; margin: 0; padding-left: 1.2rem;">
+                    <li>Gepersonaliseerde programma matches</li>
+                    <li>Digitale aanvraagprocessen</li>
+                    <li>Lokale projectkansen</li>
+                    <li>Directe communicatie met overheden</li>
+                </ul>
+            </div>
+            """, unsafe_allow_html=True)
             
             # Benefits preview
-            st.markdown("### 🎯 Voordelen")
-            st.success("**Tijdsbesparing** tot 80% bij aanvragen")
-            st.success("**Hogere slagingskans** door matching")
-            st.success("**Proactieve meldingen** bij nieuwe kansen")
+            st.markdown("### Voordelen van het platform")
+            st.markdown("""
+            <div style="background: #d4edda; padding: 1rem; border-radius: 6px; margin: 0.5rem 0; border-left: 4px solid #28a745;">
+                <strong>Tijdsbesparing tot 80%</strong><br/>
+                <small>bij het indienen van subsidieaanvragen</small>
+            </div>
+            <div style="background: #d1ecf1; padding: 1rem; border-radius: 6px; margin: 0.5rem 0; border-left: 4px solid #17a2b8;">
+                <strong>Hogere slagingskans</strong><br/>
+                <small>door intelligente programma matching</small>
+            </div>
+            <div style="background: #fff3cd; padding: 1rem; border-radius: 6px; margin: 0.5rem 0; border-left: 4px solid #ffc107;">
+                <strong>Proactieve notificaties</strong><br/>
+                <small>bij nieuwe geschikte mogelijkheden</small>
+            </div>
+            """, unsafe_allow_html=True)
     
     else:
         # User is logged in - show personalized experience
         user = st.session_state.user_data
-        st.success(f"👋 **Welkom {user['name']}!** U bent ingelogd via DigiD.")
+        st.markdown(f"""
+        <div style="background: linear-gradient(90deg, #d4edda 0%, #c3e6cb 100%); padding: 1.5rem; border-radius: 10px; border: 1px solid #c3e6cb; margin: 1.5rem 0;">
+            <h4 style="color: #155724; margin: 0;">Welkom, {user['name']}</h4>
+            <p style="color: #155724; margin: 0.5rem 0 0 0; opacity: 0.8;">U bent succesvol ingelogd via DigiD | Sessie beveiligd</p>
+        </div>
+        """, unsafe_allow_html=True)
         
         # Create main layout
         col1, col2 = st.columns([2, 1])
         
         with col1:
-            st.markdown("## 🎯 Gepersonaliseerde Programma's voor uw Bedrijf")
+            st.markdown("## Gepersonaliseerde Programma's voor uw Bedrijf")
             
             # Add professional filtering interface
             st.markdown("""
-            <div style="background: linear-gradient(135deg, #f8faff 0%, #e8f2ff 100%); padding: 2rem; border-radius: 12px; border: 1px solid #d1e7ff; margin: 1.5rem 0;">
-                <h3 style="color: #154c79; margin: 0 0 1.5rem 0; font-weight: 600;">🔍 Programma Filters</h3>
+            <div style="background: white; padding: 2rem; border-radius: 12px; border: 1px solid #e0e0e0; margin: 1.5rem 0;">
+                <h3 style="color: #154c79; margin: 0 0 1.5rem 0; font-weight: 600;">Programma Filters</h3>
                 <p style="color: #666; margin: 0 0 1rem 0; font-size: 0.95rem;">Verfijn uw zoekresultaten met onderstaande criteria voor meer relevante programma's</p>
             </div>
             """, unsafe_allow_html=True)
@@ -285,7 +342,7 @@ def main():
             filter_col1, filter_col2 = st.columns(2)
             
             with filter_col1:
-                st.markdown("**💰 Inkomensniveau**")
+                st.markdown("**Inkomensniveau**")
                 income_level = st.selectbox(
                     "",
                     ["Alle niveaus", "Laag inkomen (< €30.000)", "Midden inkomen (€30.000 - €70.000)", "Hoog inkomen (> €70.000)"],
@@ -293,7 +350,7 @@ def main():
                     help="Selecteer uw jaarlijkse inkomenscategorie"
                 )
                 
-                st.markdown("**📋 Rechtsvorm**")
+                st.markdown("**Rechtsvorm**")
                 filing_status = st.selectbox(
                     "",
                     ["Alle rechtsvormen", "Particulier", "Bedrijf/Onderneming", "Stichting/Vereniging"],
@@ -301,7 +358,7 @@ def main():
                     help="Uw organisatievorm voor belastingaangifte"
                 )
                 
-                st.markdown("**🎂 Leeftijd & Status**")
+                st.markdown("**Leeftijd & Status**")
                 age_range = st.selectbox(
                     "",
                     ["Alle leeftijden", "Jong (18-30 jaar)", "Midden (31-50 jaar)", "Senior (50+ jaar)", "Met beperking"],
@@ -310,7 +367,7 @@ def main():
                 )
             
             with filter_col2:
-                st.markdown("**👥 Huishoudengrootte**")
+                st.markdown("**Huishoudengrootte**")
                 household_size = st.selectbox(
                     "",
                     ["Alle groottes", "1 persoon", "2 personen", "3 personen", "4 personen", "5+ personen"],
@@ -318,7 +375,7 @@ def main():
                     help="Aantal personen in uw huishouden inclusief kinderen"
                 )
                 
-                st.markdown("**💼 Arbeidsstatus**")
+                st.markdown("**Arbeidsstatus**")
                 employment_status = st.selectbox(
                     "",
                     ["Alle statussen", "In dienst", "Werkzoekend", "Zelfstandig ondernemer", "Student"],
@@ -326,7 +383,7 @@ def main():
                     help="Uw huidige arbeidsmarktpositie"
                 )
                 
-                st.markdown("**💳 Type Uitgaven**")
+                st.markdown("**Type Uitgaven**")
                 expense_type = st.selectbox(
                     "",
                     ["Alle uitgaven", "Bedrijfskosten", "Persoonlijke kosten", "Apparatuur/Equipment", "Training/Opleiding", "Onderzoek & Ontwikkeling"],
@@ -337,7 +394,7 @@ def main():
             # Clear filters button
             col_clear, col_info = st.columns([1, 4])
             with col_clear:
-                if st.button("🔄 Reset Filters", help="Alle filters terugzetten"):
+                if st.button("Reset Filters", help="Alle filters terugzetten"):
                     st.rerun()
             
             # Apply filters with Dutch values
@@ -357,17 +414,15 @@ def main():
             active_filters = [k for k, v in filters.items() if v is not None]
             if active_filters:
                 st.markdown(f"""
-                <div style="background: #e8f5e8; padding: 1rem; border-radius: 8px; border-left: 4px solid #28a745; margin: 1rem 0;">
-                    <strong>🎯 Actieve filters:</strong> {len(active_filters)} filter(s) toegepast
+                <div style="background: white; padding: 1rem; border-radius: 8px; border-left: 4px solid #28a745; margin: 1rem 0;">
+                    <strong>Actieve filters:</strong> {len(active_filters)} filter(s) toegepast
                 </div>
                 """, unsafe_allow_html=True)
             
             if matched_programs:
                 st.markdown(f"""
-                <div style="background: linear-gradient(90deg, #d4edda 0%, #c3e6cb 100%); padding: 1.5rem; border-radius: 10px; border: 1px solid #c3e6cb; margin: 1.5rem 0;">
-                    <h4 style="color: #155724; margin: 0; display: flex; align-items: center;">
-                        🎉 <span style="margin-left: 0.5rem;">{len(matched_programs)} geschikte programma's gevonden</span>
-                    </h4>
+                <div style="background: white; padding: 1.5rem; border-radius: 10px; border: 1px solid #d4edda; margin: 1.5rem 0;">
+                    <h4 style="color: #155724; margin: 0;">{len(matched_programs)} geschikte programma's gevonden</h4>
                     <p style="color: #155724; margin: 0.5rem 0 0 0; opacity: 0.8;">Deze programma's passen perfect bij uw bedrijfsprofiel en geselecteerde criteria</p>
                 </div>
                 """, unsafe_allow_html=True)
@@ -382,7 +437,7 @@ def main():
                         <div style="display: flex; justify-content: between; align-items: center; margin-bottom: 1rem;">
                             <h4 style="color: #154c79; margin: 0; flex-grow: 1;">{program['name']}</h4>
                             <span style="background: #e8f5e8; color: #155724; padding: 0.25rem 0.75rem; border-radius: 20px; font-size: 0.85rem; font-weight: bold;">
-                                ✅ {match_score}% match
+                                {match_score}% match
                             </span>
                         </div>
                     </div>
@@ -393,42 +448,42 @@ def main():
                         
                         with col_a:
                             st.markdown(f"""
-                            **💰 Maximale subsidie:** €{program.get('funding_amount', 0):,}  
-                            **📋 Beschrijving:** {program['description']}  
-                            **🏛️ Uitvoerende organisatie:** {program.get('contact', 'Nederlandse overheid')}  
-                            **⏰ Aanvraagdeadline:** {program.get('deadline', 'Doorlopend open')}
+                            **Maximale subsidie:** €{program.get('funding_amount', 0):,}  
+                            **Beschrijving:** {program['description']}  
+                            **Uitvoerende organisatie:** {program.get('contact', 'Nederlandse overheid')}  
+                            **Aanvraagdeadline:** {program.get('deadline', 'Doorlopend open')}
                             """)
                             
                             # Show eligibility criteria
                             if any([program.get('max_employees'), program.get('min_employees'), program.get('sectors')]):
-                                st.markdown("**📊 Geschiktheidscriteria:**")
+                                st.markdown("**Geschiktheidscriteria:**")
                                 criteria = []
                                 if program.get('max_employees'):
-                                    criteria.append(f"👥 Max {program['max_employees']} werknemers")
+                                    criteria.append(f"Max {program['max_employees']} werknemers")
                                 if program.get('min_employees'):
-                                    criteria.append(f"👥 Min {program['min_employees']} werknemers")
+                                    criteria.append(f"Min {program['min_employees']} werknemers")
                                 if program.get('sectors'):
-                                    criteria.append(f"🏭 Sectoren: {', '.join(program['sectors'])}")
-                                st.markdown(" • " + " • ".join(criteria))
+                                    criteria.append(f"Sectoren: {', '.join(program['sectors'])}")
+                                st.markdown("• " + " • ".join(criteria))
                         
                         with col_b:
                             # Use name as key since id might not exist
                             program_key = program.get('id', program['name'].replace(' ', '_').replace('(', '').replace(')', ''))
                             
                             st.markdown("<br>", unsafe_allow_html=True)
-                            if st.button(f"📝 Subsidie Aanvragen", key=f"apply_{program_key}", type="primary", use_container_width=True):
-                                st.success("✅ Uw aanvraag is succesvol ingediend!")
-                                st.info("📧 U ontvangt binnen 2 werkdagen een bevestigingsmail met verdere instructies.")
+                            if st.button(f"Subsidie Aanvragen", key=f"apply_{program_key}", type="primary", use_container_width=True):
+                                st.success("Uw aanvraag is succesvol ingediend!")
+                                st.info("U ontvangt binnen 2 werkdagen een bevestigingsmail met verdere instructies.")
                                 st.balloons()
                             
-                            if st.button(f"ℹ️ Meer Informatie", key=f"info_{program_key}", use_container_width=True):
-                                st.info(f"📞 Voor meer informatie kunt u contact opnemen met {program.get('contact', 'de uitvoerende organisatie')} of bezoek de officiële website.")
+                            if st.button(f"Meer Informatie", key=f"info_{program_key}", use_container_width=True):
+                                st.info(f"Voor meer informatie kunt u contact opnemen met {program.get('contact', 'de uitvoerende organisatie')} of bezoek de officiële website.")
                     
                     st.markdown("---")
             
             else:
                 st.markdown("""
-                <div style="background: linear-gradient(90deg, #fff3cd 0%, #ffeaa7 100%); padding: 2rem; border-radius: 12px; border: 1px solid #ffeaa7; margin: 1.5rem 0; text-align: center;">
+                <div style="background: white; padding: 2rem; border-radius: 12px; border: 1px solid #ffeaa7; margin: 1.5rem 0; text-align: center;">
                     <h4 style="color: #856404; margin: 0 0 1rem 0;">🔍 Geen geschikte programma's gevonden</h4>
                     <p style="color: #856404; margin: 0;">Met uw huidige criteria en filters zijn er momenteel geen passende subsidies beschikbaar.</p>
                 </div>
@@ -457,20 +512,18 @@ def main():
             
             # Local projects section with professional styling
             st.markdown("""
-            <div style="background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%); padding: 1.5rem; border-radius: 15px; color: white; margin: 2rem 0 1rem 0;">
-                <h3 style="color: white; margin: 0; display: flex; align-items: center;">
-                    🚀 <span style="margin-left: 0.5rem;">Lokale Projectkansen</span>
-                </h3>
-                <p style="color: rgba(255,255,255,0.9); margin: 0.5rem 0 0 0;">Exclusieve samenwerkingsmogelijkheden in uw regio</p>
+            <div style="background: white; padding: 1.5rem; border-radius: 15px; border: 1px solid #ff6b6b; margin: 2rem 0 1rem 0;">
+                <h3 style="color: #ff6b6b; margin: 0;">Lokale Projectkansen</h3>
+                <p style="color: #666; margin: 0.5rem 0 0 0;">Exclusieve samenwerkingsmogelijkheden in uw regio</p>
             </div>
             """, unsafe_allow_html=True)
             
             # Mock local project for Den Haag
             if user['location'] == "Den Haag":
                 st.markdown("""
-                <div style="background: linear-gradient(90deg, #fff5f5 0%, #fee2e2 100%); padding: 2rem; border-radius: 12px; border: 1px solid #fecaca; margin: 1rem 0;">
+                <div style="background: white; padding: 2rem; border-radius: 12px; border: 1px solid #fecaca; margin: 1rem 0;">
                     <div style="display: flex; align-items: center; margin-bottom: 1rem;">
-                        <h4 style="color: #dc2626; margin: 0; flex-grow: 1;">🔥 Warmtenet Den Haag - Partner Gezocht</h4>
+                        <h4 style="color: #dc2626; margin: 0; flex-grow: 1;">Warmtenet Den Haag - Partner Gezocht</h4>
                         <span style="background: #dc2626; color: white; padding: 0.25rem 0.75rem; border-radius: 20px; font-size: 0.8rem; font-weight: bold;">
                             URGENT
                         </span>
@@ -482,48 +535,46 @@ def main():
                 col_proj1, col_proj2 = st.columns([3, 1])
                 with col_proj1:
                     st.markdown("""
-                    **🎯 Gezocht:** Bedrijven met technische expertise in warmtenetwerken  
-                    **💰 Investeringsbereik:** €500.000 - €2.000.000  
-                    **⏰ Aanmeldingsdeadline:** 15 december 2024  
-                    **📋 Vereisten:** Min. 5 jaar ervaring, ISO certificering  
-                    **🏆 Voordelen:** Langetermijn contract + subsidie tot €200.000
+                    **Gezocht:** Bedrijven met technische expertise in warmtenetwerken  
+                    **Investeringsbereik:** €500.000 - €2.000.000  
+                    **Aanmeldingsdeadline:** 15 december 2024  
+                    **Vereisten:** Min. 5 jaar ervaring, ISO certificering  
+                    **Voordelen:** Langetermijn contract + subsidie tot €200.000
                     """)
                 
                 with col_proj2:
                     st.markdown("<br/>", unsafe_allow_html=True)
-                    if st.button("🤝 Interesse Tonen", type="primary", use_container_width=True):
+                    if st.button("Interesse Tonen", type="primary", use_container_width=True):
                         st.balloons()
-                        st.success("✅ Uw interesse is geregistreerd!")
-                        st.info("📞 De gemeente Den Haag neemt binnen 1 week contact met u op voor een vrijblijvend gesprek.")
+                        st.success("Uw interesse is geregistreerd!")
+                        st.info("De gemeente Den Haag neemt binnen 1 week contact met u op voor een vrijblijvend gesprek.")
                     
-                    if st.button("📄 Project Details", use_container_width=True):
-                        st.info("📋 Gedetailleerde projectinformatie wordt naar uw email verstuurd.")
+                    if st.button("Project Details", use_container_width=True):
+                        st.info("Gedetailleerde projectinformatie wordt naar uw email verstuurd.")
         
         with col2:
             # Professional user profile card
             st.markdown("""
-            <div style="background: linear-gradient(135deg, #154c79 0%, #1e5f8b 100%); padding: 1.5rem; border-radius: 15px; color: white; margin-bottom: 1.5rem;">
-                <h3 style="color: white; margin: 0 0 1rem 0; display: flex; align-items: center;">
-                    👤 <span style="margin-left: 0.5rem;">Uw Bedrijfsprofiel</span>
-                </h3>
+            <div style="background: white; padding: 1.5rem; border-radius: 15px; border: 1px solid #154c79; margin-bottom: 1.5rem;">
+                <h3 style="color: #154c79; margin: 0 0 1rem 0;">Uw Bedrijfsprofiel</h3>
             </div>
             """, unsafe_allow_html=True)
             
             # Business info in cards
             st.markdown(f"""
             <div style="background: white; padding: 1.5rem; border-radius: 10px; border: 1px solid #e3e8ef; margin-bottom: 1rem; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
-                <div style="margin-bottom: 0.75rem;"><strong>🏢 Bedrijfsnaam</strong><br/><span style="color: #666;">{user['company']}</span></div>
-                <div style="margin-bottom: 0.75rem;"><strong>📍 Vestigingsplaats</strong><br/><span style="color: #666;">{user['location']}</span></div>
-                <div style="margin-bottom: 0.75rem;"><strong>👥 Aantal werknemers</strong><br/><span style="color: #666;">{user['employees']} medewerkers</span></div>
-                <div style="margin-bottom: 0.75rem;"><strong>💰 Jaaromzet</strong><br/><span style="color: #666;">€{user['annual_revenue']:,}</span></div>
-                <div><strong>🏭 Bedrijfssector</strong><br/><span style="color: #666;">{user['sector']}</span></div>
+                <div style="margin-bottom: 0.75rem;"><strong>Bedrijfsnaam</strong><br/><span style="color: #666;">{user['company']}</span></div>
+                <div style="margin-bottom: 0.75rem;"><strong>Vestigingsplaats</strong><br/><span style="color: #666;">{user['location']}</span></div>
+                <div style="margin-bottom: 0.75rem;"><strong>Aantal werknemers</strong><br/><span style="color: #666;">{user['employees']} medewerkers</span></div>
+                <div style="margin-bottom: 0.75rem;"><strong>Jaaromzet</strong><br/><span style="color: #666;">€{user['annual_revenue']:,}</span></div>
+                <div><strong>Bedrijfssector</strong><br/><span style="color: #666;">{user['sector']}</span></div>
             </div>
             """, unsafe_allow_html=True)
             
             # Statistics dashboard
             st.markdown("""
-            <div style="background: linear-gradient(135deg, #28a745 0%, #20c997 100%); padding: 1.5rem; border-radius: 15px; color: white; margin-bottom: 1.5rem;">
-                <h4 style="color: white; margin: 0 0 1rem 0;">📊 Uw Subsidie Dashboard</h4>
+            <div style="background: white; padding: 1.5rem; border-radius: 15px; border: 1px solid #28a745; margin-bottom: 1.5rem;">
+                <h4 style="color: #28a745; margin: 0 0 1rem 0;">Uw Subsidie Dashboard</h4>
             </div>
             """, unsafe_allow_html=True)
             
@@ -558,23 +609,23 @@ def main():
             
             # Activity feed
             st.markdown("""
-            <div style="background: linear-gradient(135deg, #6f42c1 0%, #e83e8c 100%); padding: 1.5rem; border-radius: 15px; color: white; margin: 1.5rem 0;">
-                <h4 style="color: white; margin: 0 0 1rem 0;">🔔 Recente Activiteiten</h4>
+            <div style="background: white; padding: 1.5rem; border-radius: 15px; border: 1px solid #6f42c1; margin: 1.5rem 0;">
+                <h4 style="color: #6f42c1; margin: 0 0 1rem 0;">Recente Activiteiten</h4>
             </div>
             """, unsafe_allow_html=True)
             
             st.markdown("""
             <div style="background: white; padding: 1.5rem; border-radius: 10px; border: 1px solid #e3e8ef; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
-                <div style="margin-bottom: 1rem; padding: 0.75rem; background: #d4edda; border-radius: 6px; border-left: 4px solid #28a745;">
-                    <strong>✅ Profiel bijgewerkt</strong><br/>
+                <div style="margin-bottom: 1rem; padding: 0.75rem; background: white; border-radius: 6px; border-left: 4px solid #28a745;">
+                    <strong>Profiel bijgewerkt</strong><br/>
                     <small style="color: #666;">Vandaag om 14:30</small>
                 </div>
-                <div style="margin-bottom: 1rem; padding: 0.75rem; background: #d1ecf1; border-radius: 6px; border-left: 4px solid #17a2b8;">
-                    <strong>📊 3 nieuwe programma's</strong><br/>
+                <div style="margin-bottom: 1rem; padding: 0.75rem; background: white; border-radius: 6px; border-left: 4px solid #17a2b8;">
+                    <strong>3 nieuwe programma's toegevoegd</strong><br/>
                     <small style="color: #666;">Gisteren om 09:15</small>
                 </div>
-                <div style="padding: 0.75rem; background: #fff3cd; border-radius: 6px; border-left: 4px solid #ffc107;">
-                    <strong>⏰ Aanvraagdeadline</strong><br/>
+                <div style="padding: 0.75rem; background: white; border-radius: 6px; border-left: 4px solid #ffc107;">
+                    <strong>Aanvraagdeadline nadert</strong><br/>
                     <small style="color: #666;">Innovation Credit: 31 december</small>
                 </div>
             </div>
@@ -582,10 +633,10 @@ def main():
             
             # Quick action buttons
             st.markdown("<br/>", unsafe_allow_html=True)
-            if st.button("⚙️ Profiel Bewerken", use_container_width=True):
+            if st.button("Profiel Bewerken", use_container_width=True):
                 st.info("Profiel bewerking wordt binnenkort beschikbaar gesteld.")
             
-            if st.button("📧 Email Notificaties", use_container_width=True):
+            if st.button("Email Notificaties", use_container_width=True):
                 st.success("U ontvangt voortaan email updates over nieuwe geschikte programma's!")
 
 if __name__ == "__main__":
