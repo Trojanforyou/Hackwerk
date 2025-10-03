@@ -110,92 +110,151 @@ def load_programs():
 
 def filter_programs(programs, user_data, filters=None):
     """Filter programs based on user criteria and additional filters"""
+    if not filters:
+        return programs
+    
+    # Check if all filters are set to default values (show all)
+    all_default = all(
+        not filters.get(key) or filters.get(key) in ['Все', 'Alle niveaus', 'Alle rechtsvormen', 'Alle leeftijden', 'Alle groottes', 'Alle statussen', 'Alle uitgaven']
+        for key in ['income_level', 'filing_status', 'household_size', 'age_range', 'employment_status', 'expense_type']
+    )
+    
+    if all_default:
+        return programs
+    
     filtered = []
     
     for program in programs:
-        # Check location eligibility
-        if user_data['location'] not in program.get('location', []):
-            continue
-            
-        # Check employee count (if max_employees exists)
-        if 'max_employees' in program:
-            if user_data['employees'] > program['max_employees']:
-                continue
-            
-        # Check funding amount vs revenue (basic eligibility)
-        if program.get('funding_amount', 0) > user_data['annual_revenue']:
-            continue
-            
-        # Check sector
-        if user_data['sector'] not in program.get('sectors', []):
-            continue
-            
-        # Apply additional filters if provided
-        if filters:
-            # Income Level filter
-            if filters.get('income_level') and filters['income_level'] != 'Все':
-                program_income_req = program.get('income_requirement', 'medium')
-                if program_income_req != filters['income_level'].lower():
-                    continue
-                    
-            # Filing Status filter
-            if filters.get('filing_status') and filters['filing_status'] != 'Все':
-                program_filing = program.get('filing_status', ['individual', 'business'])
-                if filters['filing_status'].lower() not in program_filing:
-                    continue
-                    
-            # Household Size filter
-            if filters.get('household_size') and filters['household_size'] != 'Все':
-                min_size = program.get('min_household_size', 1)
-                max_size = program.get('max_household_size', 10)
-                size = int(filters['household_size'])
-                if not (min_size <= size <= max_size):
-                    continue
-                    
-            # Age filter
-            if filters.get('age_range') and filters['age_range'] != 'Все':
-                program_age = program.get('age_requirement', 'all')
-                if program_age != 'all' and program_age != filters['age_range'].lower():
-                    continue
-                    
-            # Employment Status filter
-            if filters.get('employment_status') and filters['employment_status'] != 'Все':
-                program_employment = program.get('employment_status', ['employed', 'unemployed', 'self-employed'])
-                if filters['employment_status'].lower() not in program_employment:
-                    continue
-                    
-            # Expense Type filter
-            if filters.get('expense_type') and filters['expense_type'] != 'Все':
-                program_expenses = program.get('eligible_expenses', ['business', 'personal', 'equipment'])
-                if filters['expense_type'].lower() not in program_expenses:
-                    continue
-            
-        filtered.append(program)
+        include_program = True
+        
+        # Get program text for matching
+        program_text = ' '.join([
+            program.get('short_name', '').lower(),
+            program.get('long_name', '').lower(),
+            program.get('description', '').lower(),
+            ' '.join(program.get('criteria', [])).lower(),
+            ' '.join(program.get('benefits', [])).lower()
+        ])
+        
+        # Apply filters with keyword matching
+        filters_passed = 0
+        total_active_filters = 0
+        
+        # Income Level filter
+        if filters.get('income_level') and 'laag inkomen' in filters.get('income_level', '').lower():
+            total_active_filters += 1
+            income_keywords = ['klein', 'start', 'beperkt', 'minimaal', 'zzp', 'starter']
+            if any(keyword in program_text for keyword in income_keywords):
+                filters_passed += 1
+        elif filters.get('income_level') and 'midden inkomen' in filters.get('income_level', '').lower():
+            total_active_filters += 1  
+            income_keywords = ['mkb', 'midden', 'gemiddeld', 'groei', 'ontwikkeling']
+            if any(keyword in program_text for keyword in income_keywords):
+                filters_passed += 1
+        elif filters.get('income_level') and 'hoog inkomen' in filters.get('income_level', '').lower():
+            total_active_filters += 1
+            income_keywords = ['groot', 'hoog', 'scale', 'export', 'internationaal', 'aanzienlijk']
+            if any(keyword in program_text for keyword in income_keywords):
+                filters_passed += 1
+        
+        # Filing Status filter
+        if filters.get('filing_status') and 'bedrijf' in filters.get('filing_status', '').lower():
+            total_active_filters += 1
+            business_keywords = ['bedrijf', 'onderneming', 'mkb', 'bv', 'commercieel', 'zakelijk', 'fiscaal']
+            if any(keyword in program_text for keyword in business_keywords):
+                filters_passed += 1
+        elif filters.get('filing_status') and 'particulier' in filters.get('filing_status', '').lower():
+            total_active_filters += 1
+            personal_keywords = ['particulier', 'persoon', 'individueel', 'privé', 'eigen']
+            if any(keyword in program_text for keyword in personal_keywords):
+                filters_passed += 1
+        
+        # Employment Status filter
+        if filters.get('employment_status') and 'zelfstandig' in filters.get('employment_status', '').lower():
+            total_active_filters += 1
+            entrepreneur_keywords = ['zelfstandig', 'ondernemer', 'eigenaar', 'zzp', 'freelance']
+            if any(keyword in program_text for keyword in entrepreneur_keywords):
+                filters_passed += 1
+        
+        # Expense Type filter  
+        if filters.get('expense_type') and 'bedrijf' in filters.get('expense_type', '').lower():
+            total_active_filters += 1
+            business_expense_keywords = ['bedrijf', 'zakelijk', 'commercieel', 'investering', 'operationeel']
+            if any(keyword in program_text for keyword in business_expense_keywords):
+                filters_passed += 1
+        elif filters.get('expense_type') and 'apparatuur' in filters.get('expense_type', '').lower():
+            total_active_filters += 1
+            equipment_keywords = ['apparatuur', 'machines', 'technologie', 'installatie', 'hardware', 'middelen']
+            if any(keyword in program_text for keyword in equipment_keywords):
+                filters_passed += 1
+        elif filters.get('expense_type') and 'training' in filters.get('expense_type', '').lower():
+            total_active_filters += 1
+            training_keywords = ['training', 'opleiding', 'scholing', 'ontwikkeling', 'kennis', 'cursus']
+            if any(keyword in program_text for keyword in training_keywords):
+                filters_passed += 1
+        elif filters.get('expense_type') and 'onderzoek' in filters.get('expense_type', '').lower():
+            total_active_filters += 1
+            research_keywords = ['onderzoek', 'ontwikkeling', 'innovatie', 'r&d', 'speur', 'technisch']
+            if any(keyword in program_text for keyword in research_keywords):
+                filters_passed += 1
+        
+        # Include program if it matches at least some filters or if no specific filters active
+        if total_active_filters == 0 or filters_passed > 0:
+            filtered.append(program)
     
     return filtered
 
 def calculate_match_score(program, user_data):
     """Calculate match percentage for a program"""
     score = 0
-    max_score = 4
+    max_score = 5
     
-    # Location match (weight: 1)
-    if user_data['location'] in program.get('location', []):
+    # Get program text for analysis
+    program_text = ' '.join([
+        program.get('short_name', '').lower(),
+        program.get('long_name', '').lower(), 
+        program.get('description', '').lower(),
+        ' '.join(program.get('criteria', [])).lower(),
+        ' '.join(program.get('benefits', [])).lower()
+    ])
+    
+    # Business type match (weight: 1)
+    if user_data.get('business_type') == 'SME':
+        business_keywords = ['mkb', 'bedrijf', 'onderneming', 'commerci']
+        if any(keyword in program_text for keyword in business_keywords):
+            score += 1
+    
+    # Sector relevance (weight: 1)
+    user_sector = user_data.get('sector', '').lower()
+    if 'government' in user_sector or 'leadership' in user_sector:
+        gov_keywords = ['overheid', 'publiek', 'bestuur', 'regering']
+        if any(keyword in program_text for keyword in gov_keywords):
+            score += 1
+    elif 'technology' in user_sector:
+        tech_keywords = ['technologie', 'innovatie', 'digitaal', 'r&d', 'ontwikkeling']
+        if any(keyword in program_text for keyword in tech_keywords):
+            score += 1
+    
+    # Company size match (weight: 1)
+    employees = user_data.get('employees', 0)
+    if 10 <= employees <= 50:
+        size_keywords = ['mkb', 'midden', 'groei', 'kleinschalig']
+        if any(keyword in program_text for keyword in size_keywords):
+            score += 1
+    
+    # Revenue match (weight: 1) 
+    revenue = user_data.get('annual_revenue', 0)
+    if revenue >= 500000:
+        revenue_keywords = ['hoog', 'groot', 'aanzienlijk', 'substantieel']
+        if any(keyword in program_text for keyword in revenue_keywords):
+            score += 1
+    
+    # General program relevance (weight: 1)
+    general_keywords = ['subsidie', 'financiering', 'ondersteuning', 'stimulering', 'aftrek']
+    if any(keyword in program_text for keyword in general_keywords):
         score += 1
     
-    # Employee range match (weight: 1)  
-    if 'max_employees' in program and user_data['employees'] <= program['max_employees']:
-        score += 1
-    
-    # Funding eligibility (weight: 1)
-    if program.get('funding_amount', 0) <= user_data['annual_revenue']:
-        score += 1
-    
-    # Sector match (weight: 1)
-    if user_data['sector'] in program.get('sectors', []):
-        score += 1
-    
-    return int((score / max_score) * 100)
+    return max(25, int((score / max_score) * 100))  # Minimum 25% match
 
 def main():
     # Set page config
@@ -274,13 +333,16 @@ def main():
             
             # Show first few programs as preview
             for program in programs[:3]:
-                with st.expander(f"**{program['name']}** | {program.get('contact', 'Nederlandse overheid')}", expanded=False):
-                    st.markdown(f"**Budget:** €{program.get('funding_amount', 0):,}")
-                    if 'max_employees' in program:
-                        st.markdown(f"**Max werknemers:** {program['max_employees']}")
-                    st.markdown(f"**Beschikbare locaties:** {', '.join(program.get('location', []))}")
-                    st.markdown(f"**Doelsectoren:** {', '.join(program.get('sectors', []))}")
-                    st.markdown(f"**Beschrijving:** {program['description']}")
+                program_name = program.get('long_name', program.get('short_name', 'Onbekende programma'))
+                with st.expander(f"**{program_name}** | Nederlandse overheid", expanded=False):
+                    st.markdown(f"**Korte naam:** {program.get('short_name', 'N/A')}")
+                    st.markdown(f"**Beschrijving:** {program.get('description', 'Geen beschrijving beschikbaar')}")
+                    if program.get('criteria'):
+                        st.markdown(f"**Geschiktheidscriteria:** {', '.join(program.get('criteria', [])[:3])}")
+                    if program.get('benefits'):
+                        st.markdown(f"**Belangrijkste voordelen:** {', '.join(program.get('benefits', [])[:3])}")
+                    st.markdown("**Uitvoerder:** Nederlandse overheid")
+                    st.markdown("**Status:** Actief programma")
         
         with col2:
             st.markdown("### DigiD Authenticatie Vereist")
@@ -337,6 +399,44 @@ def main():
             </div>
             """, unsafe_allow_html=True)
             
+            # Initialize filter defaults if not set or if apply company profile was clicked
+            if 'apply_company_profile' not in st.session_state:
+                st.session_state.apply_company_profile = False
+            
+            # Set default values based on company profile if button was clicked
+            if st.session_state.apply_company_profile:
+                # Income level based on annual revenue
+                if user['annual_revenue'] < 300000:
+                    default_income = "Laag inkomen (< €30.000)"
+                elif user['annual_revenue'] < 700000:
+                    default_income = "Midden inkomen (€30.000 - €70.000)"
+                else:
+                    default_income = "Hoog inkomen (> €70.000)"
+                
+                default_filing = "Bedrijf/Onderneming"
+                default_employment = "Zelfstandig ondernemer"
+                default_expense = "Bedrijfskosten"
+                default_age = "Midden (31-50 jaar)"
+                
+                # Household size based on employee count
+                if user['employees'] <= 5:
+                    default_household = "2 personen"
+                elif user['employees'] <= 15:
+                    default_household = "3 personen"
+                else:
+                    default_household = "4 personen"
+                
+                # Reset the flag
+                st.session_state.apply_company_profile = False
+            else:
+                # Default values
+                default_income = "Alle niveaus"
+                default_filing = "Alle rechtsvormen"
+                default_employment = "Alle statussen"
+                default_expense = "Alle uitgaven"
+                default_age = "Alle leeftijden"
+                default_household = "Alle groottes"
+            
             # Create professional filter layout
             st.markdown("#### Persoonlijke Criteria")
             filter_col1, filter_col2 = st.columns(2)
@@ -344,57 +444,86 @@ def main():
             with filter_col1:
                 st.markdown("**Inkomensniveau**")
                 income_level = st.selectbox(
-                    "",
+                    "Inkomensniveau",
                     ["Alle niveaus", "Laag inkomen (< €30.000)", "Midden inkomen (€30.000 - €70.000)", "Hoog inkomen (> €70.000)"],
+                    index=["Alle niveaus", "Laag inkomen (< €30.000)", "Midden inkomen (€30.000 - €70.000)", "Hoog inkomen (> €70.000)"].index(default_income),
                     key="income_filter",
-                    help="Selecteer uw jaarlijkse inkomenscategorie"
+                    help="Selecteer uw jaarlijkse inkomenscategorie",
+                    label_visibility="collapsed"
                 )
                 
                 st.markdown("**Rechtsvorm**")
                 filing_status = st.selectbox(
-                    "",
+                    "Rechtsvorm",
                     ["Alle rechtsvormen", "Particulier", "Bedrijf/Onderneming", "Stichting/Vereniging"],
+                    index=["Alle rechtsvormen", "Particulier", "Bedrijf/Onderneming", "Stichting/Vereniging"].index(default_filing),
                     key="filing_filter",
-                    help="Uw organisatievorm voor belastingaangifte"
+                    help="Uw organisatievorm voor belastingaangifte",
+                    label_visibility="collapsed"
                 )
                 
                 st.markdown("**Leeftijd & Status**")
                 age_range = st.selectbox(
-                    "",
+                    "Leeftijd & Status",
                     ["Alle leeftijden", "Jong (18-30 jaar)", "Midden (31-50 jaar)", "Senior (50+ jaar)", "Met beperking"],
+                    index=["Alle leeftijden", "Jong (18-30 jaar)", "Midden (31-50 jaar)", "Senior (50+ jaar)", "Met beperking"].index(default_age),
                     key="age_filter",
-                    help="Uw leeftijdscategorie of speciale status"
+                    help="Uw leeftijdscategorie of speciale status",
+                    label_visibility="collapsed"
                 )
             
             with filter_col2:
                 st.markdown("**Huishoudengrootte**")
                 household_size = st.selectbox(
-                    "",
+                    "Huishoudengrootte",
                     ["Alle groottes", "1 persoon", "2 personen", "3 personen", "4 personen", "5+ personen"],
+                    index=["Alle groottes", "1 persoon", "2 personen", "3 personen", "4 personen", "5+ personen"].index(default_household),
                     key="household_filter",
-                    help="Aantal personen in uw huishouden inclusief kinderen"
+                    help="Aantal personen in uw huishouden inclusief kinderen",
+                    label_visibility="collapsed"
                 )
                 
                 st.markdown("**Arbeidsstatus**")
                 employment_status = st.selectbox(
-                    "",
+                    "Arbeidsstatus",
                     ["Alle statussen", "In dienst", "Werkzoekend", "Zelfstandig ondernemer", "Student"],
+                    index=["Alle statussen", "In dienst", "Werkzoekend", "Zelfstandig ondernemer", "Student"].index(default_employment),
                     key="employment_filter",
-                    help="Uw huidige arbeidsmarktpositie"
+                    help="Uw huidige arbeidsmarktpositie",
+                    label_visibility="collapsed"
                 )
                 
                 st.markdown("**Type Uitgaven**")
                 expense_type = st.selectbox(
-                    "",
+                    "Type Uitgaven",
                     ["Alle uitgaven", "Bedrijfskosten", "Persoonlijke kosten", "Apparatuur/Equipment", "Training/Opleiding", "Onderzoek & Ontwikkeling"],
+                    index=["Alle uitgaven", "Bedrijfskosten", "Persoonlijke kosten", "Apparatuur/Equipment", "Training/Opleiding", "Onderzoek & Ontwikkeling"].index(default_expense),
                     key="expense_filter",
-                    help="Waarvoor heeft u financiering nodig?"
+                    help="Waarvoor heeft u financiering nodig?",
+                    label_visibility="collapsed"
                 )
             
-            # Clear filters button
-            col_clear, col_info = st.columns([1, 4])
+            # Clear filters and apply company profile buttons
+            col_clear, col_apply, col_info = st.columns([1, 1, 3])
             with col_clear:
                 if st.button("Reset Filters", help="Alle filters terugzetten"):
+                    # Reset pagination when filters change
+                    if 'current_page' in st.session_state:
+                        st.session_state.current_page = 1
+                    st.rerun()
+            
+            with col_apply:
+                if st.button("Apply Company Profile", help="Zet filters op basis van uw bedrijfsprofiel", type="primary"):
+                    # Set flag to apply company profile on next rerun
+                    st.session_state.apply_company_profile = True
+                    # Clear existing filter keys to force refresh
+                    for key in ['income_filter', 'filing_filter', 'age_filter', 'household_filter', 'employment_filter', 'expense_filter']:
+                        if key in st.session_state:
+                            del st.session_state[key]
+                    # Reset pagination when filters change
+                    if 'current_page' in st.session_state:
+                        st.session_state.current_page = 1
+                    st.success("✅ Filters aangepast op basis van uw bedrijfsprofiel!")
                     st.rerun()
             
             # Apply filters with Dutch values
@@ -420,25 +549,134 @@ def main():
                 """, unsafe_allow_html=True)
             
             if matched_programs:
+                # Pagination setup
+                programs_per_page = 3
+                total_programs = len(matched_programs)
+                total_pages = (total_programs + programs_per_page - 1) // programs_per_page
+                
+                # Initialize page number in session state
+                if 'current_page' not in st.session_state:
+                    st.session_state.current_page = 1
+                
+                # Program count and pagination header
                 st.markdown(f"""
                 <div style="background: white; padding: 1.5rem; border-radius: 10px; border: 1px solid #d4edda; margin: 1.5rem 0;">
-                    <h4 style="color: #155724; margin: 0;">{len(matched_programs)} geschikte programma's gevonden</h4>
-                    <p style="color: #155724; margin: 0.5rem 0 0 0; opacity: 0.8;">Deze programma's passen perfect bij uw bedrijfsprofiel en geselecteerde criteria</p>
+                    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;">
+                        <div>
+                            <h4 style="color: #155724; margin: 0;">📋 {total_programs} geschikte programma's gevonden</h4>
+                            <p style="color: #155724; margin: 0.5rem 0 0 0; opacity: 0.8;">Deze programma's passen perfect bij uw bedrijfsprofiel en geselecteerde criteria</p>
+                        </div>
+                        <div style="text-align: right;">
+                            <span style="color: #6c757d; font-size: 0.9rem; background: #f8f9fa; padding: 0.3rem 0.8rem; border-radius: 20px;">
+                                📄 Pagina {st.session_state.current_page} van {total_pages}
+                            </span>
+                        </div>
+                    </div>
                 </div>
                 """, unsafe_allow_html=True)
                 
-                # Sort by match score
-                for i, program in enumerate(matched_programs):
+                # Pagination controls (top)
+                if total_pages > 1:
+                    col_prev, col_pages, col_next = st.columns([1, 3, 1])
+                    
+                    with col_prev:
+                        if st.button("⬅️ Vorige", disabled=(st.session_state.current_page <= 1), key="prev_top", 
+                                   help="Ga naar vorige pagina"):
+                            st.session_state.current_page -= 1
+                            st.rerun()
+                    
+                    with col_pages:
+                        # Simple centered pagination
+                        visible_pages = min(7, total_pages)  # Show max 7 page buttons
+                        start_page = max(1, st.session_state.current_page - visible_pages // 2)
+                        end_page = min(total_pages, start_page + visible_pages - 1)
+                        
+                        # Adjust start_page if we're near the end
+                        if end_page - start_page < visible_pages - 1:
+                            start_page = max(1, end_page - visible_pages + 1)
+                        
+                        # Create simple button-based pagination
+                        page_cols = st.columns(end_page - start_page + 1)
+                        
+                        for i, page_num in enumerate(range(start_page, end_page + 1)):
+                            with page_cols[i]:
+                                if page_num == st.session_state.current_page:
+                                    st.markdown(f"""
+                                    <div style="background: linear-gradient(135deg, #007bff, #0056b3); 
+                                                color: white; 
+                                                padding: 0.7rem 1rem; 
+                                                text-align: center; 
+                                                border-radius: 8px; 
+                                                font-weight: bold;
+                                                font-size: 1rem;
+                                                box-shadow: 0 2px 8px rgba(0,123,255,0.3);
+                                                border: 2px solid #007bff;
+                                                margin: 0 0.1rem;">
+                                        {page_num}
+                                    </div>
+                                    """, unsafe_allow_html=True)
+                                else:
+                                    if st.button(f"{page_num}", key=f"page_{page_num}_top", 
+                                               help=f"Ga naar pagina {page_num}",
+                                               use_container_width=True):
+                                        st.session_state.current_page = page_num
+                                        st.rerun()
+                    
+                    with col_next:
+                        if st.button("Volgende ➡️", disabled=(st.session_state.current_page >= total_pages), key="next_top",
+                                   help="Ga naar volgende pagina"):
+                            st.session_state.current_page += 1
+                            st.rerun()
+                    
+                    st.markdown("<br>", unsafe_allow_html=True)
+                
+                # Calculate which programs to show on current page
+                start_idx = (st.session_state.current_page - 1) * programs_per_page
+                end_idx = min(start_idx + programs_per_page, total_programs)
+                current_page_programs = matched_programs[start_idx:end_idx]
+                
+                # Show programs for current page
+                for i, program in enumerate(current_page_programs):
                     match_score = calculate_match_score(program, user)
                     
-                    # Create professional program card
+                    # Create beautiful modern program card
+                    program_name = program.get('long_name', program.get('short_name', 'Onbekende programma'))
+                    short_name = program.get('short_name', 'N/A')
+                    
+                    # Choose color based on match score
+                    if match_score >= 80:
+                        match_color = "#d4edda"
+                        match_text_color = "#155724"
+                        border_color = "#28a745"
+                    elif match_score >= 60:
+                        match_color = "#fff3cd" 
+                        match_text_color = "#856404"
+                        border_color = "#ffc107"
+                    else:
+                        match_color = "#f8f9fa"
+                        match_text_color = "#6c757d"
+                        border_color = "#dee2e6"
+                    
                     st.markdown(f"""
-                    <div style="background: white; padding: 1.5rem; border-radius: 12px; border: 1px solid #e3e8ef; margin: 1rem 0; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
-                        <div style="display: flex; justify-content: between; align-items: center; margin-bottom: 1rem;">
-                            <h4 style="color: #154c79; margin: 0; flex-grow: 1;">{program['name']}</h4>
-                            <span style="background: #e8f5e8; color: #155724; padding: 0.25rem 0.75rem; border-radius: 20px; font-size: 0.85rem; font-weight: bold;">
-                                {match_score}% match
-                            </span>
+                    <div style="background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%); 
+                                padding: 2rem; 
+                                border-radius: 16px; 
+                                border-left: 5px solid {border_color}; 
+                                margin: 1.5rem 0; 
+                                box-shadow: 0 4px 6px rgba(0,0,0,0.07), 0 1px 3px rgba(0,0,0,0.06);
+                                transition: all 0.3s ease;">
+                        <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1.5rem;">
+                            <div style="flex-grow: 1;">
+                                <div style="display: flex; align-items: center; margin-bottom: 0.5rem;">
+                                    <span style="background: {border_color}; color: white; padding: 0.25rem 0.75rem; border-radius: 20px; font-size: 0.75rem; font-weight: bold; margin-right: 1rem;">
+                                        {short_name}
+                                    </span>
+                                    <span style="background: {match_color}; color: {match_text_color}; padding: 0.25rem 0.75rem; border-radius: 20px; font-size: 0.85rem; font-weight: bold;">
+                                        🎯 {match_score}% match
+                                    </span>
+                                </div>
+                                <h3 style="color: #154c79; margin: 0; font-size: 1.3rem; font-weight: 600;">{program_name}</h3>
+                            </div>
                         </div>
                     </div>
                     """, unsafe_allow_html=True)
@@ -447,39 +685,148 @@ def main():
                         col_a, col_b = st.columns([3, 1])
                         
                         with col_a:
+                            # Program description with modern styling
                             st.markdown(f"""
-                            **Maximale subsidie:** €{program.get('funding_amount', 0):,}  
-                            **Beschrijving:** {program['description']}  
-                            **Uitvoerende organisatie:** {program.get('contact', 'Nederlandse overheid')}  
-                            **Aanvraagdeadline:** {program.get('deadline', 'Doorlopend open')}
-                            """)
+                            <div style="background: #f8f9fa; padding: 1.2rem; border-radius: 12px; margin: 1rem 0; border-left: 4px solid #007bff;">
+                                <h5 style="color: #154c79; margin-bottom: 0.8rem; display: flex; align-items: center;">
+                                    📄 <span style="margin-left: 0.5rem;">Beschrijving</span>
+                                </h5>
+                                <p style="margin: 0; color: #495057; line-height: 1.6;">{program.get('description', 'Geen beschrijving beschikbaar')}</p>
+                            </div>
+                            """, unsafe_allow_html=True)
                             
-                            # Show eligibility criteria
-                            if any([program.get('max_employees'), program.get('min_employees'), program.get('sectors')]):
-                                st.markdown("**Geschiktheidscriteria:**")
-                                criteria = []
-                                if program.get('max_employees'):
-                                    criteria.append(f"Max {program['max_employees']} werknemers")
-                                if program.get('min_employees'):
-                                    criteria.append(f"Min {program['min_employees']} werknemers")
-                                if program.get('sectors'):
-                                    criteria.append(f"Sectoren: {', '.join(program['sectors'])}")
-                                st.markdown("• " + " • ".join(criteria))
+                            # Show eligibility criteria with beautiful cards
+                            if program.get('criteria'):
+                                st.markdown("""
+                                <h5 style="color: #154c79; margin: 1.5rem 0 1rem 0; display: flex; align-items: center;">
+                                    ✅ <span style="margin-left: 0.5rem;">Geschiktheidscriteria</span>
+                                </h5>
+                                """, unsafe_allow_html=True)
+                                
+                                criteria_list = program.get('criteria', [])
+                                for i, criterion in enumerate(criteria_list[:4]):
+                                    st.markdown(f"""
+                                    <div style="background: #e8f5e8; padding: 0.8rem 1.2rem; margin: 0.5rem 0; border-radius: 8px; border-left: 3px solid #28a745;">
+                                        <span style="color: #155724; font-weight: 500;">✓ {criterion}</span>
+                                    </div>
+                                    """, unsafe_allow_html=True)
+                                
+                                if len(criteria_list) > 4:
+                                    st.markdown(f"<p style='color: #6c757d; font-style: italic; margin: 0.5rem 0;'>...en nog {len(criteria_list)-4} andere criteria</p>", unsafe_allow_html=True)
+                            
+                            # Show benefits with attractive styling
+                            if program.get('benefits'):
+                                st.markdown("""
+                                <h5 style="color: #154c79; margin: 1.5rem 0 1rem 0; display: flex; align-items: center;">
+                                    💰 <span style="margin-left: 0.5rem;">Belangrijkste voordelen</span>
+                                </h5>
+                                """, unsafe_allow_html=True)
+                                
+                                benefits_list = program.get('benefits', [])
+                                for benefit in benefits_list[:4]:
+                                    st.markdown(f"""
+                                    <div style="background: #fff3cd; padding: 0.8rem 1.2rem; margin: 0.5rem 0; border-radius: 8px; border-left: 3px solid #ffc107;">
+                                        <span style="color: #856404; font-weight: 500;">🎁 {benefit}</span>
+                                    </div>
+                                    """, unsafe_allow_html=True)
+                                
+                                if len(benefits_list) > 4:
+                                    st.markdown(f"<p style='color: #6c757d; font-style: italic; margin: 0.5rem 0;'>...en nog {len(benefits_list)-4} andere voordelen</p>", unsafe_allow_html=True)
                         
                         with col_b:
-                            # Use name as key since id might not exist
-                            program_key = program.get('id', program['name'].replace(' ', '_').replace('(', '').replace(')', ''))
+                            # Use name and index as unique key
+                            program_key = f"{program.get('short_name', 'program').replace(' ', '_').replace('(', '').replace(')', '')}_{i}"
                             
-                            st.markdown("<br>", unsafe_allow_html=True)
-                            if st.button(f"Subsidie Aanvragen", key=f"apply_{program_key}", type="primary", use_container_width=True):
-                                st.success("Uw aanvraag is succesvol ingediend!")
-                                st.info("U ontvangt binnen 2 werkdagen een bevestigingsmail met verdere instructies.")
+                            # Modern action panel
+                            st.markdown(f"""
+                            <div style="background: #f8f9fa; padding: 1.5rem; border-radius: 12px; border: 1px solid #dee2e6; margin-top: 1rem; text-align: center;">
+                                <h6 style="color: #495057; margin-bottom: 1rem;">Actie ondernemen</h6>
+                            </div>
+                            """, unsafe_allow_html=True)
+                            
+                            if st.button("🚀 Subsidie Aanvragen", key=f"apply_{program_key}", type="primary", use_container_width=True):
+                                st.success("🎉 Uw aanvraag is succesvol ingediend!")
+                                st.info("📧 U ontvangt binnen 2 werkdagen een bevestigingsmail met verdere instructies.")
                                 st.balloons()
                             
-                            if st.button(f"Meer Informatie", key=f"info_{program_key}", use_container_width=True):
-                                st.info(f"Voor meer informatie kunt u contact opnemen met {program.get('contact', 'de uitvoerende organisatie')} of bezoek de officiële website.")
+                            if st.button("📚 Meer Informatie", key=f"info_{program_key}", use_container_width=True):
+                                st.info("📞 Voor meer informatie kunt u contact opnemen met Nederlandse overheid of bezoek de officiële website.")
+                                
+                            # Additional program info
+                            st.markdown(f"""
+                            <div style="background: #e9ecef; padding: 1rem; border-radius: 8px; margin: 1rem 0;">
+                                <small style="color: #6c757d;">
+                                    <strong>Uitvoerder:</strong><br>Nederlandse overheid<br><br>
+                                    <strong>Status:</strong><br>✅ Actief programma<br><br>
+                                    <strong>Type:</strong><br>📋 Overheidssubsidie
+                                </small>
+                            </div>
+                            """, unsafe_allow_html=True)
                     
                     st.markdown("---")
+                
+                # Bottom pagination controls (same as top)
+                if total_pages > 1:
+                    st.markdown("<br>", unsafe_allow_html=True)
+                    col_prev_b, col_pages_b, col_next_b = st.columns([1, 3, 1])
+                    
+                    with col_prev_b:
+                        if st.button("⬅️ Vorige", disabled=(st.session_state.current_page <= 1), key="prev_bottom",
+                                   help="Ga naar vorige pagina"):
+                            st.session_state.current_page -= 1
+                            st.rerun()
+                    
+                    with col_pages_b:
+                        # Simple centered pagination (bottom)
+                        visible_pages = min(7, total_pages)
+                        start_page = max(1, st.session_state.current_page - visible_pages // 2)
+                        end_page = min(total_pages, start_page + visible_pages - 1)
+                        
+                        if end_page - start_page < visible_pages - 1:
+                            start_page = max(1, end_page - visible_pages + 1)
+                        
+                        # Create simple button-based pagination (bottom)
+                        page_cols_b = st.columns(end_page - start_page + 1)
+                        
+                        for i, page_num in enumerate(range(start_page, end_page + 1)):
+                            with page_cols_b[i]:
+                                if page_num == st.session_state.current_page:
+                                    st.markdown(f"""
+                                    <div style="background: linear-gradient(135deg, #007bff, #0056b3); 
+                                                color: white; 
+                                                padding: 0.7rem 1rem; 
+                                                text-align: center; 
+                                                border-radius: 8px; 
+                                                font-weight: bold;
+                                                font-size: 1rem;
+                                                box-shadow: 0 2px 8px rgba(0,123,255,0.3);
+                                                border: 2px solid #007bff;
+                                                margin: 0 0.1rem;">
+                                        {page_num}
+                                    </div>
+                                    """, unsafe_allow_html=True)
+                                else:
+                                    if st.button(f"{page_num}", key=f"page_{page_num}_bottom",
+                                               help=f"Ga naar pagina {page_num}",
+                                               use_container_width=True):
+                                        st.session_state.current_page = page_num
+                                        st.rerun()
+                    
+                    with col_next_b:
+                        if st.button("Volgende ➡️", disabled=(st.session_state.current_page >= total_pages), key="next_bottom",
+                                   help="Ga naar volgende pagina"):
+                            st.session_state.current_page += 1
+                            st.rerun()
+                    
+                    # Page info
+                    st.markdown(f"""
+                    <div style="text-align: center; margin: 1rem 0; color: #6c757d;">
+                        <small>
+                            📄 Toont programma's {start_idx + 1}-{end_idx} van {total_programs} totaal | 
+                            📊 {programs_per_page} programma's per pagina
+                        </small>
+                    </div>
+                    """, unsafe_allow_html=True)
             
             else:
                 st.markdown("""

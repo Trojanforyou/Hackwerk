@@ -1,127 +1,702 @@
 [
   {
-    "name": "Innovation Credit (Innovatiekrediet)",
-    "type": "Startup",
-    "stage": "Beginning",
-    "description": "Low-interest loans for innovative startups developing new products or services.",
-    "funding_amount": 450000,
-    "location": ["Amsterdam", "Utrecht", "Rotterdam", "The Hague"],
-    "max_employees": 50,
-    "sectors": ["Technology", "Clean Energy", "Healthcare"],
-    "deadline": "2025-12-31",
-    "contact": "RVO - Netherlands Enterprise Agency",
-    "income_requirement": "medium",
-    "filing_status": ["business", "individual"],
-    "min_household_size": 1,
-    "max_household_size": 5,
-    "age_requirement": "young",
-    "employment_status": ["self-employed", "unemployed"],
-    "eligible_expenses": ["business", "equipment", "research"]
+    "short_name": "WBSO",
+    "long_name": "Wet Bevordering Speur- en Ontwikkelingswerk",
+    "description": "Fiscale regeling die R&D-activiteiten ondersteunt door loonkosten en uitgaven te verlagen.",
+    "criteria": ["Technologische innovatie", "S&O-werkzaamheden", "In Nederland gevestigde onderneming"],
+    "benefits": ["Verlaging van loon- en uitgavenlasten", "Stimulering van innovatie"]
   },
   {
-    "name": "SME Growth Facility",
-    "type": "SME", 
-    "stage": "Growth",
-    "description": "Subsidies for SMEs expanding operations, hiring staff, or investing in sustainability.",
-    "funding_amount": 200000,
-    "location": ["Amsterdam", "Utrecht", "Eindhoven", "Groningen"],
-    "min_employees": 10,
-    "max_employees": 250,
-    "min_revenue": 500000,
-    "deadline": "2025-11-15",
-    "contact": "Ministry of Economic Affairs",
-    "income_requirement": "high",
-    "filing_status": ["business"],
-    "min_household_size": 2,
-    "max_household_size": 10,
-    "age_requirement": "middle",
-    "employment_status": ["employed", "self-employed"],
-    "eligible_expenses": ["business", "training"]
+    "short_name": "Innovatiekrediet",
+    "long_name": "Leningen voor risicovolle innovaties",
+    "description": "Financiering voor innovatieve projecten met een hoog technisch en commercieel risico.",
+    "criteria": ["Innovatief project", "Hoge technische onzekerheid", "Project in Nederland uitgevoerd"],
+    "benefits": ["Toegang tot risicodragend kapitaal", "Ondersteuning bij technologische ontwikkeling"]
   },
   {
-    "name": "Green Energy Transition Fund",
-    "type": "SME",
-    "stage": "Growth", 
-    "description": "Support for companies implementing renewable energy solutions and heat networks in municipalities.",
-    "funding_amount": 1000000,
-    "location": ["Amsterdam", "Utrecht", "Rotterdam"],
-    "sectors": ["Clean Energy", "Construction"],
-    "min_employees": 5,
-    "deadline": "2026-03-31",
-    "contact": "Climate Fund Netherlands",
-    "income_requirement": "high",
-    "filing_status": ["business"],
-    "min_household_size": 1,
-    "max_household_size": 8,
-    "age_requirement": "all",
-    "employment_status": ["employed", "self-employed"],
-    "eligible_expenses": ["business", "equipment"]
+    "short_name": "MIT",
+    "long_name": "MKB Innovatiestimulering Topsectoren",
+    "description": "Ondersteunt mkb-bedrijven bij innovatieprojecten in topsectoren.",
+    "criteria": ["MKB-bedrijf", "Innovatieproject in een topsector", "Samenwerking met kennisinstelling of andere bedrijven mogelijk"],
+    "benefits": ["Financiële ondersteuning voor innovatie", "Samenwerking met kennisinstellingen stimuleren"]
   },
   {
-    "name": "Export Promotion Scheme",
-    "type": "Scale-up",
-    "stage": "International Expansion", 
-    "description": "Financial support for established companies expanding to international markets.",
-    "funding_amount": 75000,
-    "min_employees": 20,
-    "min_revenue": 1000000,
-    "deadline": "2025-10-30",
-    "contact": "Netherlands Foreign Investment Agency",
-    "income_requirement": "high",
-    "filing_status": ["business"],
-    "min_household_size": 1,
-    "max_household_size": 10,
-    "age_requirement": "middle",
-    "employment_status": ["employed", "self-employed"],
-    "eligible_expenses": ["business", "training"]
+    "short_name": "MIA/Vamil",
+    "long_name": "Milieu-investeringsaftrek en willekeurige afschrijving milieu-investeringen",
+    "description": "Fiscaal voordeel voor investeringen in milieuvriendelijke bedrijfsmiddelen.",
+    "criteria": ["Investering in erkende milieuvriendelijke middelen", "Bedrijf in Nederland", "Voldoen aan lijst erkende investeringen"],
+    "benefits": ["Belastingvoordeel bij duurzame investeringen", "Stimulering milieuvriendelijke bedrijfsvoering"]
   },
   {
-    "name": "Freelancer Innovation Voucher",
-    "type": "Self-employed",
-    "stage": "Beginning",
-    "description": "Tax benefits and small grants for self-employed entrepreneurs developing innovative solutions.",
-    "funding_amount": 15000,
-    "max_employees": 1,
-    "max_revenue": 100000,
-    "deadline": "2025-12-15",
-    "contact": "Local Municipality Office",
-    "income_requirement": "low",
-    "filing_status": ["individual", "business"],
-    "min_household_size": 1,
-    "max_household_size": 3,
-    "age_requirement": "young",
-    "employment_status": ["self-employed", "unemployed"],
-    "eligible_expenses": ["personal", "equipment", "training"]
+    "short_name": "EIA",
+    "long_name": "Energie-investeringsaftrek",
+    "description": "Fiscaal voordeel bij investeringen in energiezuinige technieken en duurzame energie.",
+    "criteria": ["Investering in energiezuinige technologie", "Bedrijf in Nederland", "Erkenning op de Energie-investeringslijst"],
+    "benefits": ["Belastingvoordeel op investeringen", "Verlaging energiekosten"]
   },
   {
-    "name": "Heat Network Development Grant",
-    "type": "SME",
-    "stage": "Growth",
-    "description": "Specific funding for companies involved in municipal heat network projects and district heating systems.",
-    "funding_amount": 2500000,
-    "location": ["Amsterdam", "Utrecht", "Rotterdam", "Almere"],
-    "sectors": ["Clean Energy", "Construction", "Infrastructure"],
-    "min_employees": 15,
-    "deadline": "2026-06-30",
-    "contact": "Ministry of Climate & Energy",
-    "income_requirement": "high",
-    "filing_status": ["business"],
-    "min_household_size": 1,
-    "max_household_size": 10,
-    "age_requirement": "all",
-    "employment_status": ["employed", "self-employed"],
-    "eligible_expenses": ["business", "equipment"]
+    "short_name": "ISDE",
+    "long_name": "Investeringssubsidie duurzame energie en energiebesparing",
+    "description": "Subsidie voor het plaatsen van duurzame energie-installaties of isolatiemaatregelen.",
+    "criteria": ["Investering in duurzame energie", "Installatie in Nederland", "Voldoet aan technische eisen"],
+    "benefits": ["Financiële tegemoetkoming", "Verlaging energiekosten", "Duurzame bedrijfsvoering"]
   },
   {
-    "name": "Digital Innovation Accelerator",
-    "type": "Startup",
-    "stage": "Beginning",
-    "description": "Intensive program for tech startups with mentoring and seed funding.",
-    "funding_amount": 100000,
-    "location": ["Amsterdam", "Eindhoven", "Utrecht"],
-    "max_employees": 25,
-    "sectors": ["Technology", "AI", "Software"],
-    "deadline": "2025-11-30",
-    "contact": "TechLeap.nl"
+    "short_name": "SDE++",
+    "long_name": "Stimulering Duurzame Energieproductie",
+    "description": "Subsidie voor het opwekken van duurzame energie zoals zon, wind en biomassa.",
+    "criteria": ["Productie van hernieuwbare energie", "Projectlocatie in Nederland", "Technische haalbaarheid aantonen"],
+    "benefits": ["Financiële ondersteuning", "Investering in duurzame energie", "Stimulering energietransitie"]
+  },
+  {
+    "short_name": "KIA",
+    "long_name": "Kleinschaligheidsinvesteringsaftrek",
+    "description": "Fiscale aftrek voor kleine investeringen in bedrijfsmiddelen.",
+    "criteria": ["Investering in bedrijfsmiddelen", "Investering tussen bepaalde bedragen", "Bedrijf in Nederland"],
+    "benefits": ["Belastingvoordeel", "Stimulering investeringen"]
+  },
+  {
+    "short_name": "KOR",
+    "long_name": "Kleineondernemersregeling",
+    "description": "Vrijstelling van btw voor kleine ondernemers met een beperkte omzet.",
+    "criteria": ["Omzet < €20.000 per jaar", "Bedrijf in Nederland", "Niet reeds btw-plichtig"],
+    "benefits": ["Vereenvoudiging administratie", "Vrijstelling van btw-afdracht"]
+  },
+  {
+    "short_name": "Zelfstandigenaftrek",
+    "long_name": "Aftrek voor zelfstandig ondernemers",
+    "description": "Belastingaftrek voor ondernemers die zelfstandig actief zijn in hun bedrijf.",
+    "criteria": ["Zelfstandig ondernemer", "Minimaal 1.225 uur per jaar gewerkt", "Inschrijving bij KvK"],
+    "benefits": ["Lagere inkomstenbelasting", "Stimulering zelfstandig ondernemerschap"]
+  },
+  {
+    "short_name": "Startersaftrek",
+    "long_name": "Extra aftrek voor startende ondernemers",
+    "description": "Verhoging van de zelfstandigenaftrek voor ondernemers in de eerste 5 jaar.",
+    "criteria": ["Startersstatus", "Inschrijving bij KvK", "Voldoen aan urencriterium"],
+    "benefits": ["Lagere belastingdruk voor starters", "Stimulering ondernemerschap"]
+  },
+  {
+    "short_name": "MKB-winstvrijstelling",
+    "long_name": "Vrijstelling van een deel van de winst voor MKB",
+    "description": "Vrijstelling van een percentage van de winst voor MKB-ondernemers.",
+    "criteria": ["MKB-ondernemer", "Winst uit onderneming", "Geen toepassing urencriterium vereist"],
+    "benefits": ["Lagere belasting over winst", "Verbetering liquiditeit"]
+  },
+  {
+    "short_name": "Meewerkaftrek",
+    "long_name": "Aftrek voor meewerkende partners",
+    "description": "Fiscale aftrek voor partners die minimaal 525 uur per jaar meewerken in de onderneming.",
+    "criteria": ["Meewerken in de onderneming", "Geen of lage vergoeding ontvangen", "Gezamenlijk inkomen onder bepaalde grens"],
+    "benefits": ["Lagere belastingdruk voor meewerkende partner", "Stimulering familiebedrijven"]
+  },
+  {
+    "short_name": "Oudedagsreserve",
+    "long_name": "Fiscale oudedagsreserve",
+    "description": "Opbouw van een oudedagsreserve voor ondernemers.",
+    "criteria": ["Winst uit onderneming", "Geen lijfrenteverzekering afgesloten", "Inschrijving bij KvK"],
+    "benefits": ["Uitstel van belastingheffing", "Opbouw pensioenvoorziening"]
+  },
+  {
+    "short_name": "BOR",
+    "long_name": "Bedrijfsopvolgingsregeling",
+    "description": "Fiscale regeling bij overdracht van een bedrijf binnen de familie.",
+    "criteria": ["Overdracht binnen de familie", "Bedrijf in Nederland", "Voldoen aan voorwaarden voor bedrijfsopvolging"],
+    "benefits": ["Uitstel of vermindering van erfbelasting", "Bevordering bedrijfscontinuïteit"]
+  },
+  {
+    "short_name": "Innovatiebox",
+    "long_name": "Fiscale regeling voor innovatieve winsten",
+    "description": "Verlaging van belastingtarief op winsten uit innovatieve activiteiten.",
+    "criteria": ["Innovatief product of proces", "WBSO-verklaring", "Winsten uit eigen R&D"],
+    "benefits": ["Lagere vennootschapsbelasting", "Stimulering innovatie"]
+  },
+  {
+    "short_name": "LKV",
+    "long_name": "Loonkostenvoordeel",
+    "description": "Fiscale regeling voor werkgevers die werknemers met een afstand tot de arbeidsmarkt in dienst nemen.",
+    "criteria": ["Werknemer met afstand tot de arbeidsmarkt", "Arbeidsovereenkomst", "In Nederland gevestigde onderneming"],
+    "benefits": ["Belastingvermindering op loonkosten", "Stimulering werkgelegenheid"]
+  },
+  {
+    "short_name": "Bbz",
+    "long_name": "Bijstandsverlening zelfstandigen",
+    "description": "Bijstandsregeling voor ondernemers met een tijdelijk inkomen onder het sociaal minimumniveau.",
+    "criteria": ["Ondernemer met tijdelijk laag inkomen", "Inschrijving bij KvK", "Inwoner van Nederland"],
+    "benefits": ["Inkomen boven sociaal minimum", "Financiële ondersteuning in moeilijke tijden"]
+  },
+  {
+    "short_name": "Starterskrediet",
+    "long_name": "Financiering voor startende ondernemers",
+    "description": "Leningen voor ondernemers die net zijn gestart.",
+    "criteria": ["Startende ondernemer", "Ondernemingsplan", "Geen of beperkte kredietgeschiedenis"],
+    "benefits": ["Toegang tot startkapitaal", "Stimulering ondernemerschap"]
+  },
+  {
+    "short_name": "Microkrediet",
+    "long_name": "Kleine zakelijke lening",
+    "description": "Leningen tot €50.000 voor kleine ondernemers.",
+    "criteria": ["Kleine onderneming", "Ondernemingsplan", "Beperkte kredietbehoefte"],
+    "benefits": ["Toegang tot microfinanciering", "Verbetering liquiditeit voor kleine bedrijven"]
+  },
+  {
+    "short_name": "O&O-fondsen",
+    "long_name": "Opleidings- en ontwikkelingsfondsen",
+    "description": "Fondsen die bijdragen aan scholing en ontwikkeling van werknemers.",
+    "criteria": ["Werknemers in loondienst", "Opleidingsbehoefte", "In Nederland gevestigde onderneming"],
+    "benefits": ["Financiële ondersteuning voor scholing", "Verbetering van vaardigheden werknemers"]
+  },
+  {
+    "short_name": "ESF+",
+    "long_name": "Europees Sociaal Fonds Plus",
+    "description": "Europees fonds ter bevordering van werkgelegenheid en sociale inclusie.",
+    "criteria": ["Projecten gericht op werkgelegenheid", "Samenwerking met andere EU-lidstaten", "Voldoen aan EU-voorwaarden"],
+    "benefits": ["Subsidie voor werkgelegenheidsprojecten", "Ondersteuning bij sociale inclusie"]
+  },
+  {
+    "short_name": "SLIM-regeling",
+    "long_name": "Subsidieregeling Leren en ontwikkelen in het MKB",
+    "description": "Subsidie voor scholing en ontwikkeling van medewerkers in het MKB.",
+    "criteria": ["MKB-onderneming", "Scholingsplan", "Medewerkers in dienst"],
+    "benefits": ["Financiële bijdrage voor training", "Verhoging van kennis en vaardigheden medewerkers"]
+  },
+  {
+    "short_name": "JTF",
+    "long_name": "Just Transition Fund",
+    "description": "Europees fonds ter ondersteuning van regio's in transitie naar een duurzame economie.",
+    "criteria": ["Projecten gericht op duurzame transitie", "Samenwerking met andere EU-lidstaten", "Voldoen aan EU-voorwaarden"],
+    "benefits": ["Financiering van groene projecten", "Bevordering duurzame transitie"]
+  },
+  {
+    "short_name": "MDIEU",
+    "long_name": "Maatwerkregeling Duurzame Inzetbaarheid en Eerder Uittreden",
+    "description": "Subsidie voor bedrijven die investeren in duurzame inzetbaarheid van medewerkers.",
+    "criteria": ["Bedrijf in Nederland", "Project gericht op duurzame inzetbaarheid", "Medewerkers in dienst"],
+    "benefits": ["Financiële ondersteuning", "Verlaging personeelsverloop", "Verhoging productiviteit"]
+  },
+  {
+    "short_name": "BOSA",
+    "long_name": "Stimulering bouw en onderhoud van sportaccommodaties",
+    "description": "Subsidie voor gemeenten en sportverenigingen voor bouw en onderhoud van sportaccommodaties.",
+    "criteria": ["Gemeente of sportvereniging", "Project gericht op bouw of onderhoud", "Voldoen aan technische eisen"],
+    "benefits": ["Financiële bijdrage voor sportprojecten", "Verbetering sportfaciliteiten"]
+  },
+  {
+    "short_name": "SPUK",
+    "long_name": "Specifieke uitkering onderwijs",
+    "description": "Financiële bijdrage voor onderwijsinstellingen voor specifieke doeleinden.",
+    "criteria": ["Onderwijsinstelling", "Project gericht op onderwijsverbetering", "Voldoen aan voorwaarden SPUK"],
+    "benefits": ["Extra financiering voor onderwijsprojecten", "Verbetering onderwijskwaliteit"]
+  },
+  {
+    "short_name": "Fonds 1818",
+    "long_name": "Fonds 1818",
+    "description": "Regionaal fonds dat maatschappelijke initiatieven ondersteunt.",
+    "criteria": ["Maatschappelijke organisatie", "Project gericht op maatschappelijke impact", "In regio Haaglanden"],
+    "benefits": ["Financiële ondersteuning voor maatschappelijke initiatieven", "Bevordering regionale projecten"]
+  },
+  {
+    "short_name": "RVO",
+    "long_name": "Rijksdienst voor Ondernemend Nederland",
+    "description": "Overheidsorganisatie die ondernemers ondersteunt met advies, financiering en netwerken.",
+    "criteria": ["Ondernemer in Nederland", "Project of onderneming", "Voldoen aan aanvraagvoorwaarden"],
+    "benefits": ["Toegang tot advies en financiering", "Ondersteuning bij innovatie en export"]
+  },
+  {
+    "short_name": "Kennisvoucher",
+    "long_name": "Voucher voor kennis en innovatie",
+    "description": "Subsidie voor MKB-bedrijven om kennis en expertise in te kopen bij kennisinstellingen.",
+    "criteria": ["MKB-bedrijf", "Project gericht op innovatie", "Samenwerking met kennisinstelling"],
+    "benefits": ["Financiële bijdrage voor kennisinkoop", "Toegang tot expertise"]
+  },
+  {
+    "short_name": "EFRO",
+    "long_name": "Europees Fonds voor Regionale Ontwikkeling",
+    "description": "Europees fonds dat regionale economische ontwikkeling stimuleert.",
+    "criteria": ["Projecten in specifieke regio's", "Innovatie of werkgelegenheid", "Voldoen aan EU-voorwaarden"],
+    "benefits": ["Subsidie voor regionale projecten", "Bevordering innovatie en werkgelegenheid"]
+  },
+  {
+    "short_name": "TOP",
+    "long_name": "Topsectoren Programma",
+    "description": "Ondersteuning van projecten in de Nederlandse topsectoren.",
+    "criteria": ["Project binnen topsector", "Samenwerking bedrijven en kennisinstellingen", "Innovatief karakter"],
+    "benefits": ["Financiering voor topsectorprojecten", "Stimulering samenwerking en innovatie"]
+  },
+  {
+    "short_name": "Energy Performance Contracting",
+    "long_name": "Financiering energie-efficiëntieprojecten",
+    "description": "Subsidie voor projecten die energiebesparing en duurzame energie bevorderen.",
+    "criteria": ["Project gericht op energie-efficiëntie", "Bedrijf in Nederland", "Technische haalbaarheid aantonen"],
+    "benefits": ["Financiële bijdrage", "Verlaging energiekosten"]
+  },
+  {
+    "short_name": "SBIR",
+    "long_name": "Small Business Innovation Research",
+    "description": "Subsidieprogramma voor innovatieve oplossingen voor maatschappelijke uitdagingen.",
+    "criteria": ["MKB-onderneming", "Innovatief project", "Oplossing voor maatschappelijke uitdaging"],
+    "benefits": ["Financiering voor R&D", "Ondersteuning bij marktintroductie"]
+  },
+  {
+    "short_name": "DEI+",
+    "long_name": "Demonstratie Energie-innovatie",
+    "description": "Subsidie voor demonstratieprojecten in energie-innovatie.",
+    "criteria": ["Innovatief energietechnologieproject", "Demonstratiefase", "Project in Nederland"],
+    "benefits": ["Financiering demonstratieprojecten", "Bevordering duurzame technologie"]
+  },
+  {
+    "short_name": "Green Deal",
+    "long_name": "Samenwerkingsproject duurzame initiatieven",
+    "description": "Ondersteuning voor samenwerking tussen bedrijven en overheid in duurzaamheid.",
+    "criteria": ["Samenwerkingsproject", "Duurzaam initiatief", "Bedrijven en overheid betrokken"],
+    "benefits": ["Financiële en organisatorische ondersteuning", "Bevordering duurzame projecten"]
+  },
+  {
+    "short_name": "EU Horizon",
+    "long_name": "Horizon Europa Programma",
+    "description": "Europees subsidieprogramma voor onderzoek en innovatie.",
+    "criteria": ["Innovatief project", "Samenwerking met EU-partners", "Voldoen aan EU-criteria"],
+    "benefits": ["Subsidie voor R&D", "Internationale samenwerking stimuleren"]
+  },
+  {
+    "short_name": "Quickscan MKB",
+    "long_name": "Ondersteuning bij digitale transformatie",
+    "description": "Advies en subsidie voor MKB-bedrijven bij digitale innovatie.",
+    "criteria": ["MKB-bedrijf", "Project digitale transformatie", "In Nederland gevestigd"],
+    "benefits": ["Financiële bijdrage", "Advies en ondersteuning bij digitalisering"]
+  },
+  {
+    "short_name": "Subsidieregeling circulaire economie",
+    "long_name": "Financiering circulaire projecten",
+    "description": "Subsidie voor projecten die circulaire economie bevorderen.",
+    "criteria": ["Project gericht op circulaire economie", "Bedrijf in Nederland", "Innovatieve aanpak"],
+    "benefits": ["Financiële bijdrage", "Stimulering circulaire bedrijfsvoering"]
+  },
+  {
+    "short_name": "SLIM+",
+    "long_name": "Extra subsidie leren en ontwikkelen in het MKB",
+    "description": "Aanvullende subsidie voor scholing van medewerkers in kleine bedrijven.",
+    "criteria": ["MKB-bedrijf", "Scholingsplan", "Medewerkers in dienst"],
+    "benefits": ["Financiële bijdrage", "Verbetering kennis en vaardigheden medewerkers"]
+  },
+  {
+    "short_name": "KvK Startersfonds",
+    "long_name": "Startersfonds van de Kamer van Koophandel",
+    "description": "Financiering en ondersteuning voor startende ondernemers.",
+    "criteria": ["Startersbedrijf", "Inschrijving bij KvK", "Ondernemingsplan aanwezig"],
+    "benefits": ["Toegang tot startkapitaal", "Advies en begeleiding bij starten"]
+  },
+  {
+    "short_name": "Regionale ontwikkelingsfondsen",
+    "long_name": "Regionale ontwikkelingsfondsen voor bedrijven",
+    "description": "Financiële ondersteuning voor bedrijven die bijdragen aan regionale economie.",
+    "criteria": ["Project met regionale impact", "Bedrijf in Nederland", "Innovatief karakter"],
+    "benefits": ["Financiering van projecten", "Versterking regionale economie"]
+  },
+  {
+    "short_name": "DEI",
+    "long_name": "Demonstratie Energie-innovatie",
+    "description": "Subsidie voor demonstratie van innovatieve energietechnologieën.",
+    "criteria": ["Innovatief energietechnologieproject", "Demonstratiefase", "Bedrijf in Nederland"],
+    "benefits": ["Financiering demonstratieprojecten", "Bevordering duurzame energie"]
+  },
+  {
+    "short_name": "SME Instrument",
+    "long_name": "Europees SME Instrument",
+    "description": "Subsidie voor innovatieve MKB-projecten met commerciële potentie in Europa.",
+    "criteria": ["MKB-bedrijf", "Innovatief project", "Commerciële potentie binnen EU"],
+    "benefits": ["Financiering voor innovatie", "Ondersteuning marktintroductie"]
+  },
+  {
+    "short_name": "EU LIFE",
+    "long_name": "LIFE-programma Europese Unie",
+    "description": "Subsidie voor milieu- en klimaatacties binnen de EU.",
+    "criteria": ["Project gericht op milieu of klimaat", "EU-landen betrokken", "Innovatieve aanpak"],
+    "benefits": ["Financiële bijdrage", "Versterking duurzame projecten"]
+  },
+  {
+    "short_name": "Regeling praktijkleren",
+    "long_name": "Subsidie praktijkleren MBO",
+    "description": "Financiële ondersteuning voor bedrijven die MBO-studenten praktijkplaatsen bieden.",
+    "criteria": ["Bedrijf in Nederland", "Studenten begeleiden", "Erkenning als leerbedrijf"],
+    "benefits": ["Financiële vergoeding per student", "Stimulering opleidingsmogelijkheden"]
+  },
+  {
+    "short_name": "SLIM R&D",
+    "long_name": "Subsidie leren en ontwikkelen in R&D",
+    "description": "Financiering voor scholing van medewerkers in R&D-projecten.",
+    "criteria": ["R&D-gericht project", "MKB-bedrijf", "Medewerkers in dienst"],
+    "benefits": ["Financiële ondersteuning scholing", "Verbetering kennis en innovatiecapaciteit"]
+  },
+  {
+    "short_name": "Green Funds",
+    "long_name": "Duurzame investeringsfondsen",
+    "description": "Financiering van projecten die bijdragen aan duurzaamheid en energiebesparing.",
+    "criteria": ["Project gericht op duurzaamheid", "Bedrijf in Nederland", "Innovatief karakter"],
+    "benefits": ["Financiële bijdrage", "Stimulering duurzame investeringen"]
+  },
+  {
+    "short_name": "EFRO Innovatie",
+    "long_name": "Europees Fonds voor Regionale Ontwikkeling – Innovatie",
+    "description": "Subsidie voor innovatieve projecten die regionale economie versterken.",
+    "criteria": ["Innovatief project", "Projectlocatie in regio Nederland", "Voldoen aan EU-regels"],
+    "benefits": ["Financiering innovatieprojecten", "Versterking regionale innovatiekracht"]
+  },
+  {
+    "short_name": "MKB Financieringsgarantie",
+    "long_name": "Garantiefonds MKB-financiering",
+    "description": "Garantie op leningen voor MKB-bedrijven die financiering zoeken.",
+    "criteria": ["MKB-bedrijf", "Aanvraag lening bij bank", "Project in Nederland"],
+    "benefits": ["Verhoogde kans op lening", "Lagere rente of betere voorwaarden"]
+  },
+  {
+    "short_name": "Kennisvouchers Duurzaamheid",
+    "long_name": "Vouchers voor kennis en advies duurzaam ondernemen",
+    "description": "Subsidie voor MKB-bedrijven om advies of kennis in te kopen over duurzaamheid.",
+    "criteria": ["MKB-bedrijf", "Project gericht op duurzaamheid", "Samenwerking met kennisinstelling"],
+    "benefits": ["Financiële bijdrage voor advies", "Verbetering duurzame bedrijfsvoering"]
+  },
+  {
+    "short_name": "Horizon Europe Accelerator",
+    "long_name": "Versnelling van innovatieprojecten EU",
+    "description": "Ondersteuning van MKB bij innovatieve projecten met internationale impact.",
+    "criteria": ["Innovatief project", "Internationale samenwerking", "MKB-onderneming"],
+    "benefits": ["Subsidie voor R&D", "Ondersteuning marktintroductie internationaal"]
+  },
+  {
+    "short_name": "Eco-Invest",
+    "long_name": "Subsidie voor milieuvriendelijke investeringen",
+    "description": "Financiering van projecten die milieu-impact verminderen.",
+    "criteria": ["Investering in milieuvriendelijke technologie", "Bedrijf in Nederland", "Innovatief project"],
+    "benefits": ["Financiële bijdrage", "Verlaging milieubelasting", "Stimulering groene investeringen"]
+  },
+  {
+    "short_name": "Innovatievoucher",
+    "long_name": "Voucher voor MKB-innovatie",
+    "description": "Subsidie om externe kennis of advies in te kopen voor innovatieve projecten.",
+    "criteria": ["MKB-bedrijf", "Innovatief project", "Samenwerking met kennisinstelling"],
+    "benefits": ["Financiële bijdrage", "Toegang tot kennis en expertise"]
+  },
+  {
+    "short_name": "Invest-NL Duurzaamheid",
+    "long_name": "Invest-NL financiering duurzame projecten",
+    "description": "Financiering voor bedrijven die investeren in duurzame oplossingen.",
+    "criteria": ["Duurzaam project", "Bedrijf in Nederland", "Innovatieve aanpak"],
+    "benefits": ["Toegang tot risicokapitaal", "Stimulering duurzame innovaties"]
+  },
+  {
+    "short_name": "Topsectorenregeling",
+    "long_name": "Subsidieprogramma Topsectoren",
+    "description": "Financiering voor innovatieve projecten binnen Nederlandse topsectoren.",
+    "criteria": ["Project binnen topsector", "Samenwerking bedrijven en kennisinstellingen", "Innovatief karakter"],
+    "benefits": ["Financiële bijdrage", "Stimulering samenwerking en innovatie"]
+  },
+  {
+    "short_name": "Climate-KIC",
+    "long_name": "Innovatie en klimaatactie EU",
+    "description": "Ondersteuning van bedrijven bij klimaatinnovatieprojecten.",
+    "criteria": ["Innovatief project gericht op klimaat", "EU-landen betrokken", "Bedrijf in Nederland"],
+    "benefits": ["Financiële bijdrage", "Bevordering klimaatinnovatie"]
+  },
+  {
+    "short_name": "R&D-samenwerkingsproject",
+    "long_name": "Subsidie voor R&D-samenwerking",
+    "description": "Subsidie voor samenwerking tussen bedrijven en kennisinstellingen in R&D-projecten.",
+    "criteria": ["Samenwerking met kennisinstelling", "Innovatief project", "Bedrijf in Nederland"],
+    "benefits": ["Financiële bijdrage", "Verbetering innovatiecapaciteit"]
+  },
+  {
+    "short_name": "Circulaire MKB-subsidie",
+    "long_name": "Subsidie voor circulaire bedrijfsprojecten",
+    "description": "Financiering voor projecten die circulaire economie bevorderen in MKB.",
+    "criteria": ["MKB-bedrijf", "Project gericht op circulaire economie", "Innovatieve aanpak"],
+    "benefits": ["Financiële ondersteuning", "Stimulering circulaire bedrijfsvoering"]
+  },
+  {
+    "short_name": "QuickScan Duurzaamheid",
+    "long_name": "Advies en subsidie duurzame transitie",
+    "description": "Ondersteuning van MKB bij analyse en implementatie van duurzame maatregelen.",
+    "criteria": ["MKB-bedrijf", "Project gericht op duurzaamheid", "Bedrijf in Nederland"],
+    "benefits": ["Financiële bijdrage", "Advies en begeleiding duurzame maatregelen"]
+  },
+  {
+    "short_name": "RVO Exportsubsidie",
+    "long_name": "Subsidie voor exportbevordering",
+    "description": "Ondersteuning van MKB-bedrijven bij internationale markttoegang.",
+    "criteria": ["MKB-bedrijf", "Exportgericht project", "Inschrijving bij KvK"],
+    "benefits": ["Financiële bijdrage voor exportactiviteiten", "Vergemakkelijking internationale handel"]
+  },
+  {
+    "short_name": "Qredits",
+    "long_name": "Microfinanciering voor ondernemers",
+    "description": "Kleine leningen en coaching voor startende en bestaande ondernemers.",
+    "criteria": ["Kleine onderneming", "Ondernemingsplan aanwezig", "In Nederland gevestigd"],
+    "benefits": ["Toegang tot microkrediet", "Begeleiding en coaching"]
+  },
+  {
+    "short_name": "Subsidie Duurzame Mobiliteit",
+    "long_name": "Financiering duurzame vervoersoplossingen",
+    "description": "Subsidie voor bedrijven die investeren in duurzame transportmiddelen.",
+    "criteria": ["Project gericht op duurzame mobiliteit", "Bedrijf in Nederland", "Innovatieve aanpak"],
+    "benefits": ["Financiële bijdrage", "Lagere CO2-uitstoot", "Duurzaam transport stimuleren"]
+  },
+  {
+    "short_name": "SLIM+ Digitalisering",
+    "long_name": "Subsidie leren en ontwikkelen bij digitale transformatie",
+    "description": "Financiering voor MKB-bedrijven om medewerkers digitaal op te leiden.",
+    "criteria": ["MKB-bedrijf", "Digitale transformatie project", "Medewerkers in dienst"],
+    "benefits": ["Financiële bijdrage", "Verhoging digitale vaardigheden personeel"]
+  },
+  {
+    "short_name": "Energy Savings Insurance",
+    "long_name": "Verzekering energiebesparingsprojecten",
+    "description": "Financiële dekking en subsidie voor energiebesparingsprojecten.",
+    "criteria": ["Energie-efficiëntie project", "Bedrijf in Nederland", "Technische haalbaarheid aantonen"],
+    "benefits": ["Financiële ondersteuning", "Risicobeperking energiebesparing"]
+  },
+  {
+    "short_name": "Invest-NL Innovatie",
+    "long_name": "Invest-NL financiering innovatieve projecten",
+    "description": "Kapitaal voor bedrijven die innovatieve producten of diensten ontwikkelen.",
+    "criteria": ["Innovatief project", "Bedrijf in Nederland", "Commerciële potentie aantonen"],
+    "benefits": ["Toegang tot risicokapitaal", "Stimulering innovatie"]
+  },
+  {
+    "short_name": "Regionaal Investeringsfonds",
+    "long_name": "Regionale financiering voor bedrijven",
+    "description": "Financiering voor projecten die regionale economische groei bevorderen.",
+    "criteria": ["Project met regionale impact", "Bedrijf in regio Nederland", "Innovatief karakter"],
+    "benefits": ["Financiering van projecten", "Versterking regionale economie"]
+  },
+  {
+    "short_name": "Subsidie Circulaire Productie",
+    "long_name": "Financiering circulaire productieprocessen",
+    "description": "Ondersteuning van MKB-bedrijven bij circulaire productie.",
+    "criteria": ["MKB-bedrijf", "Project gericht op circulaire productie", "Innovatieve aanpak"],
+    "benefits": ["Financiële bijdrage", "Stimulering circulaire bedrijfsvoering"]
+  },
+  {
+    "short_name": "Subsidie Energieaudit",
+    "long_name": "Financiering energie-audits",
+    "description": "Subsidie voor bedrijven die energie-audits uitvoeren om besparingen te identificeren.",
+    "criteria": ["Bedrijf in Nederland", "Uitvoering energie-audit", "Rapportage van besparingspotentieel"],
+    "benefits": ["Financiële bijdrage", "Verbetering energie-efficiëntie"]
+  },
+  {
+    "short_name": "Startersaftrek",
+    "long_name": "Extra belastingaftrek voor startende ondernemers",
+    "description": "Verhoging van zelfstandigenaftrek voor ondernemers in de eerste 5 jaar.",
+    "criteria": ["Startende ondernemer", "Inschrijving bij KvK", "Voldoen aan urencriterium"],
+    "benefits": ["Lagere belastingdruk", "Stimulering ondernemerschap"]
+  },
+  {
+    "short_name": "Bbz Krediet",
+    "long_name": "Bijstandsverlening zelfstandigen – lening",
+    "description": "Lening voor ondernemers die tijdelijk onvoldoende inkomen hebben.",
+    "criteria": ["Ondernemer met tijdelijk laag inkomen", "Inschrijving bij KvK", "Inwoner van Nederland"],
+    "benefits": ["Toegang tot lening bij financiële nood", "Inkomen boven sociaal minimum"]
+  },
+  {
+    "short_name": "Innovatiebox",
+    "long_name": "Fiscale regeling voor innovatieve winsten",
+    "description": "Verlaging van belastingtarief op winsten uit innovatieve activiteiten.",
+    "criteria": ["Innovatief product of proces", "WBSO-verklaring", "Winsten uit eigen R&D"],
+    "benefits": ["Lagere vennootschapsbelasting", "Stimulering innovatie"]
+  },
+  {
+    "short_name": "MIA/Vamil",
+    "long_name": "Milieu-investeringsaftrek en willekeurige afschrijving milieu-investeringen",
+    "description": "Fiscaal voordeel voor investeringen in milieuvriendelijke bedrijfsmiddelen.",
+    "criteria": ["Investering in erkende milieuvriendelijke middelen", "Bedrijf in Nederland", "Voldoen aan lijst erkende investeringen"],
+    "benefits": ["Belastingvoordeel bij duurzame investeringen", "Stimulering milieuvriendelijke bedrijfsvoering"]
+  },
+  {
+    "short_name": "EIA",
+    "long_name": "Energie-investeringsaftrek",
+    "description": "Fiscaal voordeel bij investeringen in energiezuinige technieken en duurzame energie.",
+    "criteria": ["Investering in energiezuinige technologie", "Bedrijf in Nederland", "Erkenning op de Energie-investeringslijst"],
+    "benefits": ["Belastingvoordeel op investeringen", "Verlaging energiekosten"]
+  },
+  {
+    "short_name": "ISDE",
+    "long_name": "Investeringssubsidie duurzame energie en energiebesparing",
+    "description": "Subsidie voor het plaatsen van duurzame energie-installaties of isolatiemaatregelen.",
+    "criteria": ["Investering in duurzame energie", "Installatie in Nederland", "Voldoet aan technische eisen"],
+    "benefits": ["Financiële tegemoetkoming", "Verlaging energiekosten", "Duurzame bedrijfsvoering"]
+  },
+  {
+    "short_name": "Starterskrediet",
+    "long_name": "Financiering voor startende ondernemers",
+    "description": "Leningen voor ondernemers die net zijn gestart.",
+    "criteria": ["Startende ondernemer", "Ondernemingsplan", "Geen of beperkte kredietgeschiedenis"],
+    "benefits": ["Toegang tot startkapitaal", "Stimulering ondernemerschap"]
+  },
+  {
+    "short_name": "Microkrediet",
+    "long_name": "Kleine zakelijke lening",
+    "description": "Leningen tot €50.000 voor kleine ondernemers.",
+    "criteria": ["Kleine onderneming", "Ondernemingsplan", "Beperkte kredietbehoefte"],
+    "benefits": ["Toegang tot microfinanciering", "Verbetering liquiditeit voor kleine bedrijven"]
+  },
+  {
+    "short_name": "LKV",
+    "long_name": "Loonkostenvoordeel",
+    "description": "Fiscale regeling voor werkgevers die werknemers met een afstand tot de arbeidsmarkt in dienst nemen.",
+    "criteria": ["Werknemer met afstand tot de arbeidsmarkt", "Arbeidsovereenkomst", "In Nederland gevestigde onderneming"],
+    "benefits": ["Belastingvermindering op loonkosten", "Stimulering werkgelegenheid"]
+  },
+  {
+    "short_name": "Bbz",
+    "long_name": "Bijstandsverlening zelfstandigen",
+    "description": "Bijstandsregeling voor ondernemers met een tijdelijk inkomen onder het sociaal minimumniveau.",
+    "criteria": ["Ondernemer met tijdelijk laag inkomen", "Inschrijving bij KvK", "Inwoner van Nederland"],
+    "benefits": ["Inkomen boven sociaal minimum", "Financiële ondersteuning in moeilijke tijden"]
+  },
+  {
+    "short_name": "Meewerkaftrek",
+    "long_name": "Aftrek voor meewerkende partners",
+    "description": "Fiscale aftrek voor partners die minimaal 525 uur per jaar meewerken in de onderneming.",
+    "criteria": ["Meewerken in de onderneming", "Geen of lage vergoeding ontvangen", "Gezamenlijk inkomen onder bepaalde grens"],
+    "benefits": ["Lagere belastingdruk voor meewerkende partner", "Stimulering familiebedrijven"]
+  },
+  {
+    "short_name": "KOR",
+    "long_name": "Kleineondernemersregeling",
+    "description": "Fiscale regeling die kleine ondernemers vrijstelt van btw-afdracht bij lage omzet.",
+    "criteria": ["Omzet onder €20.000 per jaar", "Inschrijving bij KvK", "Belastingplichtige ondernemer"],
+    "benefits": ["Geen btw afdragen", "Administratieve lasten verlagen"]
+  },
+  {
+    "short_name": "O&O aftrek",
+    "long_name": "Onderzoek en Ontwikkeling aftrek",
+    "description": "Fiscale aftrek voor bedrijven die investeren in R&D-activiteiten.",
+    "criteria": ["Innovatief R&D-project", "Bedrijf in Nederland", "Voldoen aan R&D-criteria RVO"],
+    "benefits": ["Lagere belastingdruk", "Stimulering innovatie"]
+  },
+  {
+    "short_name": "Startersaftrek zelfstandig",
+    "long_name": "Extra zelfstandigenaftrek voor startende ondernemers",
+    "description": "Belastingaftrek voor startende ondernemers bovenop de standaard zelfstandigenaftrek.",
+    "criteria": ["Startende ondernemer", "Inschrijving bij KvK", "Voldoen aan urencriterium"],
+    "benefits": ["Lagere belastingdruk", "Ondersteuning startende ondernemers"]
+  },
+  {
+    "short_name": "JV-subsidie",
+    "long_name": "Joint Venture subsidie",
+    "description": "Subsidie voor bedrijven die samenwerken in gezamenlijke innovatieprojecten.",
+    "criteria": ["Samenwerkingsverband", "Innovatief project", "Bedrijven gevestigd in Nederland"],
+    "benefits": ["Financiële bijdrage", "Stimulering samenwerking en innovatie"]
+  },
+  {
+    "short_name": "Innovatieaftrek",
+    "long_name": "Fiscale aftrek voor innovatieve uitgaven",
+    "description": "Belastingaftrek voor uitgaven aan innovatie, zoals patenten en prototypes.",
+    "criteria": ["Innovatieve uitgaven", "Bedrijf in Nederland", "Documentatie van uitgaven"],
+    "benefits": ["Lagere belastingdruk", "Stimulering innovatie"]
+  },
+  {
+    "short_name": "RDA",
+    "long_name": "Research & Development Aftrek",
+    "description": "Fiscaal voordeel voor bedrijven die investeren in R&D.",
+    "criteria": ["R&D-activiteiten", "Bedrijf in Nederland", "Voldoen aan R&D-criteria RVO"],
+    "benefits": ["Belastingvoordeel", "Stimulering innovatie en ontwikkeling"]
+  },
+  {
+    "short_name": "Tewerkstellingssubsidie",
+    "long_name": "Subsidie voor het aannemen van personeel",
+    "description": "Financiële steun voor bedrijven die personeel aannemen met extra stimulansen.",
+    "criteria": ["Aanname van personeel", "Bedrijf in Nederland", "Voldoen aan subsidievoorwaarden"],
+    "benefits": ["Financiële bijdrage", "Stimulering werkgelegenheid"]
+  },
+  {
+    "short_name": "Groei & Innovatie",
+    "long_name": "Subsidieregeling voor groei en innovatie in het MKB",
+    "description": "Ondersteuning voor MKB-bedrijven bij groeiprojecten en innovatie.",
+    "criteria": ["MKB-bedrijf", "Project gericht op groei of innovatie", "In Nederland gevestigd"],
+    "benefits": ["Financiële bijdrage", "Ondersteuning groei en innovatie"]
+  },
+  {
+    "short_name": "Regionale Energietransitie",
+    "long_name": "Subsidie voor regionale energietransitieprojecten",
+    "description": "Financiering voor bedrijven die bijdragen aan regionale verduurzaming van energie.",
+    "criteria": ["Duurzaam energieproject", "Bedrijf in Nederland", "Innovatieve aanpak"],
+    "benefits": ["Financiële bijdrage", "Versnelling energietransitie"]
+  },
+  {
+    "short_name": "Smart Industry",
+    "long_name": "Subsidieregeling voor digitalisering en automatisering",
+    "description": "Ondersteuning van MKB-bedrijven bij digitalisering en smart manufacturing.",
+    "criteria": ["MKB-bedrijf", "Project gericht op digitalisering", "In Nederland gevestigd"],
+    "benefits": ["Financiële bijdrage", "Verbetering bedrijfsprocessen en productiviteit"]
+  },
+  {
+    "short_name": "Energy Investment Allowance",
+    "long_name": "Fiscale aftrek voor energiebesparende investeringen",
+    "description": "Belastingvoordeel voor bedrijven die investeren in energiebesparende technieken.",
+    "criteria": ["Investering in energiebesparende technologie", "Bedrijf in Nederland", "Erkenning door RVO"],
+    "benefits": ["Belastingvoordeel", "Verlaging energiekosten"]
+  },
+  {
+    "short_name": "Kennisontwikkelingsprogramma",
+    "long_name": "Subsidie voor kennisontwikkeling van medewerkers",
+    "description": "Financiering voor bedrijven om kennis en vaardigheden van medewerkers te verbeteren.",
+    "criteria": ["MKB-bedrijf", "Project gericht op kennisontwikkeling", "Medewerkers in dienst"],
+    "benefits": ["Financiële bijdrage", "Verbetering kennis en vaardigheden personeel"]
+  },
+  {
+    "short_name": "Internationale Samenwerking",
+    "long_name": "Subsidie voor internationale projecten en partnerschappen",
+    "description": "Financiële ondersteuning voor bedrijven die internationale samenwerkingen aangaan.",
+    "criteria": ["Internationaal project", "Samenwerking met buitenlandse partners", "Bedrijf in Nederland"],
+    "benefits": ["Financiële bijdrage", "Ondersteuning internationale markttoegang"]
+  },
+  {
+    "short_name": "Circulaire Innovatie",
+    "long_name": "Subsidie voor circulaire innovatieprojecten",
+    "description": "Ondersteuning van bedrijven bij circulaire en duurzame innovatie.",
+    "criteria": ["Project gericht op circulaire economie", "Innovatief karakter", "Bedrijf in Nederland"],
+    "benefits": ["Financiële bijdrage", "Stimulering circulaire bedrijfsvoering"]
+  },
+  {
+    "short_name": "Smart Energy",
+    "long_name": "Subsidie voor slimme energietechnologieën",
+    "description": "Financiering van projecten die slimme energietechnologieën implementeren.",
+    "criteria": ["Innovatief energieproject", "Bedrijf in Nederland", "Technische haalbaarheid aantonen"],
+    "benefits": ["Financiële bijdrage", "Verlaging energiekosten", "Bevordering duurzame energie"]
+  },
+  {
+    "short_name": "R&D Kickstart",
+    "long_name": "Subsidie voor startende R&D-projecten",
+    "description": "Ondersteuning van MKB-bedrijven bij het starten van R&D-activiteiten.",
+    "criteria": ["Innovatief R&D-project", "MKB-bedrijf", "Bedrijf in Nederland"],
+    "benefits": ["Financiële bijdrage", "Ondersteuning R&D-start"]
+  },
+  {
+    "short_name": "Innovatiekrediet",
+    "long_name": "Rentevoordeel en krediet voor innovatieve projecten",
+    "description": "Leningen voor risicovolle, innovatieve projecten met commercieel potentieel.",
+    "criteria": ["Innovatief project", "Commerciële potentie", "Bedrijf in Nederland"],
+    "benefits": ["Toegang tot krediet", "Lagere rente", "Stimulering innovatie"]
+  },
+  {
+    "short_name": "EU Regional Development",
+    "long_name": "Europees fonds voor regionale ontwikkeling",
+    "description": "Financiering voor regionale economische en innovatieve projecten.",
+    "criteria": ["Regionaal project", "Innovatief karakter", "Bedrijf in Nederland"],
+    "benefits": ["Financiële bijdrage", "Versterking regionale economie en innovatie"]
+  },
+  {
+    "short_name": "Technologievoucher",
+    "long_name": "Voucher voor technologische ontwikkeling",
+    "description": "Subsidie voor MKB-bedrijven om technologische expertise in te kopen.",
+    "criteria": ["MKB-bedrijf", "Innovatief project", "Samenwerking met kennisinstelling"],
+    "benefits": ["Financiële bijdrage", "Toegang tot technologie en kennis"]
+  },
+  {
+    "short_name": "Duurzaam MKB",
+    "long_name": "Subsidie voor duurzame maatregelen in het MKB",
+    "description": "Financiering van duurzame verbeteringen in MKB-bedrijven.",
+    "criteria": ["MKB-bedrijf", "Duurzaamheidsproject", "Bedrijf in Nederland"],
+    "benefits": ["Financiële bijdrage", "Verlaging energie- en milieukosten", "Stimulering duurzame bedrijfsvoering"]
   }
 ]
