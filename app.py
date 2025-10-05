@@ -2,7 +2,6 @@ import streamlit as st
 import json
 import time
 
-# Mock DigiD user profiles (for demo)
 MOCK_USERS = {
     "123456789": {
         "name": "King Arthur",
@@ -25,7 +24,6 @@ def digid_login():
     """DigiD authentication interface"""
     st.sidebar.header("DigiD Inloggen")
     
-    # Simple fake DigiD authentication - no external server needed
     
     if 'logged_in' not in st.session_state:
         st.session_state.logged_in = False
@@ -33,9 +31,7 @@ def digid_login():
     if not st.session_state.logged_in:
         st.sidebar.info("Log in met DigiD voor toegang tot gepersonaliseerde overheidsprogramma's")
         
-        # Single DigiD login button - fake login as King Arthur
         if st.sidebar.button("Inloggen met DigiD", type="primary", use_container_width=True):
-            # Show realistic DigiD process
             with st.sidebar:
                 st.info("Doorverwijzen naar DigiD...")
                 time.sleep(0.5)
@@ -43,7 +39,6 @@ def digid_login():
                 time.sleep(0.5)
                 st.success("Authenticatie succesvol!")
             
-            # Auto-login as King Arthur
             king_arthur_data = MOCK_USERS["123456789"].copy()
             king_arthur_data.update({
                 "auth_method": "DigiD",
@@ -51,15 +46,12 @@ def digid_login():
                 "verified": True
             })
             
-            # Set user as logged in
             st.session_state.logged_in = True
             st.session_state.user_data = king_arthur_data
             st.session_state.auth_source = "DigiD"
             
-            # Refresh to show logged in state
             st.rerun()
         
-        # Small info message
         st.sidebar.caption("💡 **DigiD Demo** - Inloggen als King Arthur")
             
     else:
@@ -72,7 +64,6 @@ def digid_login():
         else:
             st.sidebar.success(f"✅ Demo Ingelogd: {user['name']}")
             
-        # Show detailed user information
         with st.sidebar.expander("📋 Volledige gegevens", expanded=False):
             st.write(f"**👤 BSN:** {user['bsn']}")
             st.write(f"**🏢 Bedrijf:** {user['company']}")
@@ -87,7 +78,6 @@ def digid_login():
             if 'address' in user:
                 st.write(f"**🏠 Adres:** {user['address']}")
         
-        # Show verification status
         if auth_source == 'DigiD':
             if user.get('verified', False):
                 st.sidebar.success("✅ Geverifieerd via DigiD")
@@ -95,9 +85,7 @@ def digid_login():
         else:
             st.sidebar.info("🎭 Demo account")
         
-        # Logout button
         if st.sidebar.button("🚪 Uitloggen"):
-            # Clear session state
             for key in ['logged_in', 'user_data', 'auth_source']:
                 if key in st.session_state:
                     del st.session_state[key]
@@ -113,7 +101,6 @@ def filter_programs(programs, user_data, filters=None):
     if not filters:
         return programs
     
-    # Check if all filters are set to default values (show all)
     all_default = all(
         not filters.get(key) or filters.get(key) in ['Все', 'Alle niveaus', 'Alle rechtsvormen', 'Alle leeftijden', 'Alle groottes', 'Alle statussen', 'Alle uitgaven']
         for key in ['income_level', 'filing_status', 'household_size', 'age_range', 'employment_status', 'expense_type']
@@ -127,7 +114,6 @@ def filter_programs(programs, user_data, filters=None):
     for program in programs:
         include_program = True
         
-        # Get program text for matching
         program_text = ' '.join([
             program.get('short_name', '').lower(),
             program.get('long_name', '').lower(),
@@ -136,11 +122,9 @@ def filter_programs(programs, user_data, filters=None):
             ' '.join(program.get('benefits', [])).lower()
         ])
         
-        # Apply filters with keyword matching
         filters_passed = 0
         total_active_filters = 0
         
-        # Income Level filter
         if filters.get('income_level') and 'laag inkomen' in filters.get('income_level', '').lower():
             total_active_filters += 1
             income_keywords = ['klein', 'start', 'beperkt', 'minimaal', 'zzp', 'starter']
@@ -157,7 +141,6 @@ def filter_programs(programs, user_data, filters=None):
             if any(keyword in program_text for keyword in income_keywords):
                 filters_passed += 1
         
-        # Filing Status filter
         if filters.get('filing_status') and 'bedrijf' in filters.get('filing_status', '').lower():
             total_active_filters += 1
             business_keywords = ['bedrijf', 'onderneming', 'mkb', 'bv', 'commercieel', 'zakelijk', 'fiscaal']
@@ -169,14 +152,12 @@ def filter_programs(programs, user_data, filters=None):
             if any(keyword in program_text for keyword in personal_keywords):
                 filters_passed += 1
         
-        # Employment Status filter
         if filters.get('employment_status') and 'zelfstandig' in filters.get('employment_status', '').lower():
             total_active_filters += 1
             entrepreneur_keywords = ['zelfstandig', 'ondernemer', 'eigenaar', 'zzp', 'freelance']
             if any(keyword in program_text for keyword in entrepreneur_keywords):
                 filters_passed += 1
         
-        # Expense Type filter  
         if filters.get('expense_type') and 'bedrijf' in filters.get('expense_type', '').lower():
             total_active_filters += 1
             business_expense_keywords = ['bedrijf', 'zakelijk', 'commercieel', 'investering', 'operationeel']
@@ -198,7 +179,6 @@ def filter_programs(programs, user_data, filters=None):
             if any(keyword in program_text for keyword in research_keywords):
                 filters_passed += 1
         
-        # Include program if it matches at least some filters or if no specific filters active
         if total_active_filters == 0 or filters_passed > 0:
             filtered.append(program)
     
@@ -209,7 +189,6 @@ def calculate_match_score(program, user_data):
     score = 0
     max_score = 5
     
-    # Get program text for analysis
     program_text = ' '.join([
         program.get('short_name', '').lower(),
         program.get('long_name', '').lower(), 
@@ -218,13 +197,11 @@ def calculate_match_score(program, user_data):
         ' '.join(program.get('benefits', [])).lower()
     ])
     
-    # Business type match (weight: 1)
     if user_data.get('business_type') == 'SME':
         business_keywords = ['mkb', 'bedrijf', 'onderneming', 'commerci']
         if any(keyword in program_text for keyword in business_keywords):
             score += 1
     
-    # Sector relevance (weight: 1)
     user_sector = user_data.get('sector', '').lower()
     if 'government' in user_sector or 'leadership' in user_sector:
         gov_keywords = ['overheid', 'publiek', 'bestuur', 'regering']
@@ -235,21 +212,18 @@ def calculate_match_score(program, user_data):
         if any(keyword in program_text for keyword in tech_keywords):
             score += 1
     
-    # Company size match (weight: 1)
     employees = user_data.get('employees', 0)
     if 10 <= employees <= 50:
         size_keywords = ['mkb', 'midden', 'groei', 'kleinschalig']
         if any(keyword in program_text for keyword in size_keywords):
             score += 1
     
-    # Revenue match (weight: 1) 
     revenue = user_data.get('annual_revenue', 0)
     if revenue >= 500000:
         revenue_keywords = ['hoog', 'groot', 'aanzienlijk', 'substantieel']
         if any(keyword in program_text for keyword in revenue_keywords):
             score += 1
     
-    # General program relevance (weight: 1)
     general_keywords = ['subsidie', 'financiering', 'ondersteuning', 'stimulering', 'aftrek']
     if any(keyword in program_text for keyword in general_keywords):
         score += 1
@@ -257,7 +231,6 @@ def calculate_match_score(program, user_data):
     return max(25, int((score / max_score) * 100))  # Minimum 25% match
 
 def main():
-    # Set page config
     st.set_page_config(
         page_title="Ondernemersloket Nederland", 
         page_icon="⚖️",
@@ -265,7 +238,6 @@ def main():
         initial_sidebar_state="expanded"
     )
     
-    # Set white background
     st.markdown("""
     <style>
     .main {
@@ -280,10 +252,8 @@ def main():
     </style>
     """, unsafe_allow_html=True)
     
-    # DigiD Authentication
     digid_login()
     
-    # Main header
     st.markdown("""
     <div style="background: linear-gradient(90deg, #154c79 0%, #1e5f8b 100%); padding: 2rem; border-radius: 12px; margin-bottom: 2rem; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
         <div style="display: flex; align-items: center;">
@@ -302,7 +272,6 @@ def main():
     
     if not st.session_state.get('logged_in', False):
         
-        # Official government notice
         st.markdown("""
         <div style="background: #fff3cd; border: 1px solid #ffeaa7; padding: 1.5rem; border-radius: 8px; margin: 1.5rem 0;">
             <h4 style="color: #856404; margin: 0 0 0.5rem 0;">Veilige DigiD-authenticatie vereist</h4>
@@ -314,7 +283,6 @@ def main():
         
         with col1:
             st.markdown("""
-            ## Wat bieden wij
             
             **Gepersonaliseerde programma matching**  
             Op basis van uw bedrijfsprofiel en specifieke behoeften
@@ -328,10 +296,8 @@ def main():
             **Directe communicatie**  
             Rechtstreeks contact met relevante overheidsinstanties
             
-            ## Beschikbare Programma's
             """)
             
-            # Show first few programs as preview
             for program in programs[:3]:
                 program_name = program.get('long_name', program.get('short_name', 'Onbekende programma'))
                 with st.expander(f"**{program_name}** | Nederlandse overheid", expanded=False):
@@ -358,7 +324,6 @@ def main():
             </div>
             """, unsafe_allow_html=True)
             
-            # Benefits preview
             st.markdown("### Voordelen van het platform")
             st.markdown("""
             <div style="background: #d4edda; padding: 1rem; border-radius: 6px; margin: 0.5rem 0; border-left: 4px solid #28a745;">
@@ -376,7 +341,6 @@ def main():
             """, unsafe_allow_html=True)
     
     else:
-        # User is logged in - show personalized experience
         user = st.session_state.user_data
         st.markdown(f"""
         <div style="background: linear-gradient(90deg, #d4edda 0%, #c3e6cb 100%); padding: 1.5rem; border-radius: 10px; border: 1px solid #c3e6cb; margin: 1.5rem 0;">
@@ -385,13 +349,11 @@ def main():
         </div>
         """, unsafe_allow_html=True)
         
-        # Create main layout
         col1, col2 = st.columns([2, 1])
         
         with col1:
             st.markdown("## Gepersonaliseerde Programma's voor uw Bedrijf")
             
-            # Add professional filtering interface
             st.markdown("""
             <div style="background: white; padding: 2rem; border-radius: 12px; border: 1px solid #e0e0e0; margin: 1.5rem 0;">
                 <h3 style="color: #154c79; margin: 0 0 1.5rem 0; font-weight: 600;">Programma Filters</h3>
@@ -399,13 +361,10 @@ def main():
             </div>
             """, unsafe_allow_html=True)
             
-            # Initialize filter defaults if not set or if apply company profile was clicked
             if 'apply_company_profile' not in st.session_state:
                 st.session_state.apply_company_profile = False
             
-            # Set default values based on company profile if button was clicked
             if st.session_state.apply_company_profile:
-                # Income level based on annual revenue
                 if user['annual_revenue'] < 300000:
                     default_income = "Laag inkomen (< €30.000)"
                 elif user['annual_revenue'] < 700000:
@@ -418,7 +377,6 @@ def main():
                 default_expense = "Bedrijfskosten"
                 default_age = "Midden (31-50 jaar)"
                 
-                # Household size based on employee count
                 if user['employees'] <= 5:
                     default_household = "2 personen"
                 elif user['employees'] <= 15:
@@ -426,10 +384,8 @@ def main():
                 else:
                     default_household = "4 personen"
                 
-                # Reset the flag
                 st.session_state.apply_company_profile = False
             else:
-                # Default values
                 default_income = "Alle niveaus"
                 default_filing = "Alle rechtsvormen"
                 default_employment = "Alle statussen"
@@ -437,7 +393,6 @@ def main():
                 default_age = "Alle leeftijden"
                 default_household = "Alle groottes"
             
-            # Create professional filter layout
             st.markdown("#### Persoonlijke Criteria")
             filter_col1, filter_col2 = st.columns(2)
             
@@ -503,30 +458,24 @@ def main():
                     label_visibility="collapsed"
                 )
             
-            # Clear filters and apply company profile buttons
             col_clear, col_apply, col_info = st.columns([1, 1, 3])
             with col_clear:
                 if st.button("Reset Filters", help="Alle filters terugzetten"):
-                    # Reset pagination when filters change
                     if 'current_page' in st.session_state:
                         st.session_state.current_page = 1
                     st.rerun()
             
             with col_apply:
                 if st.button("Apply Company Profile", help="Zet filters op basis van uw bedrijfsprofiel", type="primary"):
-                    # Set flag to apply company profile on next rerun
                     st.session_state.apply_company_profile = True
-                    # Clear existing filter keys to force refresh
                     for key in ['income_filter', 'filing_filter', 'age_filter', 'household_filter', 'employment_filter', 'expense_filter']:
                         if key in st.session_state:
                             del st.session_state[key]
-                    # Reset pagination when filters change
                     if 'current_page' in st.session_state:
                         st.session_state.current_page = 1
                     st.success("✅ Filters aangepast op basis van uw bedrijfsprofiel!")
                     st.rerun()
             
-            # Apply filters with Dutch values
             filters = {
                 'income_level': 'low' if 'Laag' in income_level else 'medium' if 'Midden' in income_level else 'high' if 'Hoog' in income_level else None,
                 'filing_status': 'individual' if 'Particulier' in filing_status else 'business' if 'Bedrijf' in filing_status else 'non-profit' if 'Stichting' in filing_status else None,
@@ -536,10 +485,8 @@ def main():
                 'expense_type': 'business' if 'Bedrijfskosten' in expense_type else 'personal' if 'Persoonlijke' in expense_type else 'equipment' if 'Apparatuur' in expense_type else 'training' if 'Training' in expense_type else 'research' if 'Onderzoek' in expense_type else None,
             }
             
-            # Filter programs for this user with additional filters
             matched_programs = filter_programs(programs, user, filters)
             
-            # Show active filters summary
             active_filters = [k for k, v in filters.items() if v is not None]
             if active_filters:
                 st.markdown(f"""
@@ -549,16 +496,13 @@ def main():
                 """, unsafe_allow_html=True)
             
             if matched_programs:
-                # Pagination setup
                 programs_per_page = 3
                 total_programs = len(matched_programs)
                 total_pages = (total_programs + programs_per_page - 1) // programs_per_page
                 
-                # Initialize page number in session state
                 if 'current_page' not in st.session_state:
                     st.session_state.current_page = 1
                 
-                # Program count and pagination header
                 st.markdown(f"""
                 <div style="background: white; padding: 1.5rem; border-radius: 10px; border: 1px solid #d4edda; margin: 1.5rem 0;">
                     <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;">
@@ -575,7 +519,6 @@ def main():
                 </div>
                 """, unsafe_allow_html=True)
                 
-                # Pagination controls (top)
                 if total_pages > 1:
                     col_prev, col_pages, col_next = st.columns([1, 3, 1])
                     
@@ -586,16 +529,13 @@ def main():
                             st.rerun()
                     
                     with col_pages:
-                        # Simple centered pagination
                         visible_pages = min(7, total_pages)  # Show max 7 page buttons
                         start_page = max(1, st.session_state.current_page - visible_pages // 2)
                         end_page = min(total_pages, start_page + visible_pages - 1)
                         
-                        # Adjust start_page if we're near the end
                         if end_page - start_page < visible_pages - 1:
                             start_page = max(1, end_page - visible_pages + 1)
                         
-                        # Create simple button-based pagination
                         page_cols = st.columns(end_page - start_page + 1)
                         
                         for i, page_num in enumerate(range(start_page, end_page + 1)):
@@ -630,20 +570,16 @@ def main():
                     
                     st.markdown("<br>", unsafe_allow_html=True)
                 
-                # Calculate which programs to show on current page
                 start_idx = (st.session_state.current_page - 1) * programs_per_page
                 end_idx = min(start_idx + programs_per_page, total_programs)
                 current_page_programs = matched_programs[start_idx:end_idx]
                 
-                # Show programs for current page
                 for i, program in enumerate(current_page_programs):
                     match_score = calculate_match_score(program, user)
                     
-                    # Create beautiful modern program card
                     program_name = program.get('long_name', program.get('short_name', 'Onbekende programma'))
                     short_name = program.get('short_name', 'N/A')
                     
-                    # Choose color based on match score
                     if match_score >= 80:
                         match_color = "#d4edda"
                         match_text_color = "#155724"
@@ -685,7 +621,6 @@ def main():
                         col_a, col_b = st.columns([3, 1])
                         
                         with col_a:
-                            # Program description with modern styling
                             st.markdown(f"""
                             <div style="background: #f8f9fa; padding: 1.2rem; border-radius: 12px; margin: 1rem 0; border-left: 4px solid #007bff;">
                                 <h5 style="color: #154c79; margin-bottom: 0.8rem; display: flex; align-items: center;">
@@ -695,7 +630,6 @@ def main():
                             </div>
                             """, unsafe_allow_html=True)
                             
-                            # Show eligibility criteria with beautiful cards
                             if program.get('criteria'):
                                 st.markdown("""
                                 <h5 style="color: #154c79; margin: 1.5rem 0 1rem 0; display: flex; align-items: center;">
@@ -714,7 +648,6 @@ def main():
                                 if len(criteria_list) > 4:
                                     st.markdown(f"<p style='color: #6c757d; font-style: italic; margin: 0.5rem 0;'>...en nog {len(criteria_list)-4} andere criteria</p>", unsafe_allow_html=True)
                             
-                            # Show benefits with attractive styling
                             if program.get('benefits'):
                                 st.markdown("""
                                 <h5 style="color: #154c79; margin: 1.5rem 0 1rem 0; display: flex; align-items: center;">
@@ -734,10 +667,8 @@ def main():
                                     st.markdown(f"<p style='color: #6c757d; font-style: italic; margin: 0.5rem 0;'>...en nog {len(benefits_list)-4} andere voordelen</p>", unsafe_allow_html=True)
                         
                         with col_b:
-                            # Use name and index as unique key
                             program_key = f"{program.get('short_name', 'program').replace(' ', '_').replace('(', '').replace(')', '')}_{i}"
                             
-                            # Modern action panel
                             st.markdown(f"""
                             <div style="background: #f8f9fa; padding: 1.5rem; border-radius: 12px; border: 1px solid #dee2e6; margin-top: 1rem; text-align: center;">
                                 <h6 style="color: #495057; margin-bottom: 1rem;">Actie ondernemen</h6>
@@ -752,7 +683,6 @@ def main():
                             if st.button("📚 Meer Informatie", key=f"info_{program_key}", use_container_width=True):
                                 st.info("📞 Voor meer informatie kunt u contact opnemen met Nederlandse overheid of bezoek de officiële website.")
                                 
-                            # Additional program info
                             st.markdown(f"""
                             <div style="background: #e9ecef; padding: 1rem; border-radius: 8px; margin: 1rem 0;">
                                 <small style="color: #6c757d;">
@@ -765,7 +695,6 @@ def main():
                     
                     st.markdown("---")
                 
-                # Bottom pagination controls (same as top)
                 if total_pages > 1:
                     st.markdown("<br>", unsafe_allow_html=True)
                     col_prev_b, col_pages_b, col_next_b = st.columns([1, 3, 1])
@@ -777,7 +706,6 @@ def main():
                             st.rerun()
                     
                     with col_pages_b:
-                        # Simple centered pagination (bottom)
                         visible_pages = min(7, total_pages)
                         start_page = max(1, st.session_state.current_page - visible_pages // 2)
                         end_page = min(total_pages, start_page + visible_pages - 1)
@@ -785,7 +713,6 @@ def main():
                         if end_page - start_page < visible_pages - 1:
                             start_page = max(1, end_page - visible_pages + 1)
                         
-                        # Create simple button-based pagination (bottom)
                         page_cols_b = st.columns(end_page - start_page + 1)
                         
                         for i, page_num in enumerate(range(start_page, end_page + 1)):
@@ -818,7 +745,6 @@ def main():
                             st.session_state.current_page += 1
                             st.rerun()
                     
-                    # Page info
                     st.markdown(f"""
                     <div style="text-align: center; margin: 1rem 0; color: #6c757d;">
                         <small>
@@ -857,7 +783,6 @@ def main():
                     Meld u aan voor updates over nieuwe programma's die bij uw profiel passen.
                     """)
             
-            # Local projects section with professional styling
             st.markdown("""
             <div style="background: white; padding: 1.5rem; border-radius: 15px; border: 1px solid #ff6b6b; margin: 2rem 0 1rem 0;">
                 <h3 style="color: #ff6b6b; margin: 0;">Lokale Projectkansen</h3>
@@ -865,7 +790,6 @@ def main():
             </div>
             """, unsafe_allow_html=True)
             
-            # Mock local project for Den Haag
             if user['location'] == "Den Haag":
                 st.markdown("""
                 <div style="background: white; padding: 2rem; border-radius: 12px; border: 1px solid #fecaca; margin: 1rem 0;">
@@ -900,14 +824,12 @@ def main():
                         st.info("Gedetailleerde projectinformatie wordt naar uw email verstuurd.")
         
         with col2:
-            # Professional user profile card
             st.markdown("""
             <div style="background: white; padding: 1.5rem; border-radius: 15px; border: 1px solid #154c79; margin-bottom: 1.5rem;">
                 <h3 style="color: #154c79; margin: 0 0 1rem 0;">Uw Bedrijfsprofiel</h3>
             </div>
             """, unsafe_allow_html=True)
             
-            # Business info in cards
             st.markdown(f"""
             <div style="background: white; padding: 1.5rem; border-radius: 10px; border: 1px solid #e3e8ef; margin-bottom: 1rem; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
                 <div style="margin-bottom: 0.75rem;"><strong>Bedrijfsnaam</strong><br/><span style="color: #666;">{user['company']}</span></div>
@@ -918,7 +840,6 @@ def main():
             </div>
             """, unsafe_allow_html=True)
             
-            # Statistics dashboard
             st.markdown("""
             <div style="background: white; padding: 1.5rem; border-radius: 15px; border: 1px solid #28a745; margin-bottom: 1.5rem;">
                 <h4 style="color: #28a745; margin: 0 0 1rem 0;">Uw Subsidie Dashboard</h4>
@@ -929,7 +850,6 @@ def main():
             matched_count = len(filter_programs(programs, user))
             match_percentage = int((matched_count / total_programs) * 100) if total_programs > 0 else 0
             
-            # Metrics in professional cards
             col_met1, col_met2 = st.columns(2)
             with col_met1:
                 st.markdown(f"""
@@ -954,7 +874,6 @@ def main():
             </div>
             """, unsafe_allow_html=True)
             
-            # Activity feed
             st.markdown("""
             <div style="background: white; padding: 1.5rem; border-radius: 15px; border: 1px solid #6f42c1; margin: 1.5rem 0;">
                 <h4 style="color: #6f42c1; margin: 0 0 1rem 0;">Recente Activiteiten</h4>
@@ -978,7 +897,6 @@ def main():
             </div>
             """, unsafe_allow_html=True)
             
-            # Quick action buttons
             st.markdown("<br/>", unsafe_allow_html=True)
             if st.button("Profiel Bewerken", use_container_width=True):
                 st.info("Profiel bewerking wordt binnenkort beschikbaar gesteld.")
